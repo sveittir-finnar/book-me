@@ -1,27 +1,23 @@
-<h2>Listing employees</h2>
 
 <table class="table">
   <thead>
     <tr>
+      <th></th>
       <th>Name</th>
       <th>Phone</th>
       <th>Email</th>
       <th>Bio</th>
-      <th>Avatar url</th>
-      <th>Company</th>
-
       <th></th>
     </tr>
   </thead>
   <tbody>
 <%= for employee <- @employees do %>
     <tr>
+      <td><img src="<%= employee.avatar_url %>" style="height: 90px; width: auto; border-radius: 50%;" /></td>
       <td><%= employee.name %></td>
       <td><%= employee.phone %></td>
       <td><%= employee.email %></td>
       <td><%= employee.bio %></td>
-      <td><%= employee.avatar_url %></td>
-      <td><%= employee.company_id %></td>
 
       <td class="text-right">
         <%= link "Show", to: employee_path(@conn, :show, employee), class: "btn btn-default btn-xs" %>
@@ -33,4 +29,4 @@
   </tbody>
 </table>
 
-<%= link "New employee", to: employee_path(@conn, :new) %>
+<%= link "New employee", class: "btn btn-lg btn-outline", to: employee_path(@conn, :new) %>

@@ -1,0 +1,38 @@
+<h2>Show employee</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @employee.name %>
+  </li>
+
+  <li>
+    <strong>Phone:</strong>
+    <%= @employee.phone %>
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @employee.email %>
+  </li>
+
+  <li>
+    <strong>Bio:</strong>
+    <%= @employee.bio %>
+  </li>
+
+  <li>
+    <strong>Avatar url:</strong>
+    <%= @employee.avatar_url %>
+  </li>
+
+  <li>
+    <strong>Company:</strong>
+    <%= @employee.company_id %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: employee_path(@conn, :edit, @employee) %>
+<%= link "Back", to: employee_path(@conn, :index) %>

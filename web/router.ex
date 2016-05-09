@@ -17,6 +17,9 @@ defmodule Appointments.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+
+    resources "/companies", CompanyController
+    resources "/employees", EmployeeController
   end
 
   # Other scopes may use custom stacks.

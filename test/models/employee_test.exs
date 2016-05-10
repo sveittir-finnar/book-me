@@ -3,8 +3,9 @@ defmodule Appointments.EmployeeTest do
 
   alias Appointments.Employee
 
-  @valid_attrs %{avatar_url: "some content", bio: "some content", email: "some content", name: "some content", phone: "some content"}
-  @invalid_attrs %{}
+  @valid_attrs %{ email: "paolo@gmail.com", name: "Paolo Maldini",
+                  password_hash: "123abc456def" }
+  @invalid_attrs %{ }
 
   test "changeset with valid attributes" do
     changeset = Employee.changeset(%Employee{}, @valid_attrs)

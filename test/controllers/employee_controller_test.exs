@@ -2,13 +2,10 @@ defmodule Appointments.EmployeeControllerTest do
   use Appointments.ConnCase
 
   alias Appointments.Employee
-  @valid_attrs %{avatar_url: "some content", bio: "some content", email: "some content", name: "some content", phone: "some content"}
+  @valid_attrs %{avatar_url: "some content", bio: "some content",
+                 email: "some content", name: "some content",
+                 phone: "some content"}
   @invalid_attrs %{}
-
-  test "lists all entries on index", %{conn: conn} do
-    conn = get conn, employee_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing employees"
-  end
 
   test "renders form for new resources", %{conn: conn} do
     conn = get conn, employee_path(conn, :new)

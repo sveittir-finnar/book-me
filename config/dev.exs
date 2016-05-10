@@ -40,3 +40,8 @@ config :appointments, Appointments.Repo,
   database: "appointments_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :openmaize,
+  user_model: Appointments.Employee,
+  repo: Appointments.Repo,
+  password_strength: [min_length: 6]

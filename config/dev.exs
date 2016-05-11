@@ -41,6 +41,7 @@ config :appointments, Appointments.Repo,
   hostname: "localhost",
   pool_size: 10
 
+# Openmaize authentication configuration
 config :openmaize,
   user_model: Appointments.Employee,
   repo: Appointments.Repo,

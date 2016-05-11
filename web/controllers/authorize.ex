@@ -17,11 +17,11 @@ defmodule Appointments.Authorize do
   a third argument, which is the current user. For example, change:
   `def index(conn, params) do` to: `def index(conn, params, user) do`
   """
-  def authorize_action(%Plug.Conn{assigns: %{current_user: nil}} = conn, _, _) do
+  def authorize_action(%Plug.Conn{assigns: %{current_user: nil}} = conn, _) do
     unauthenticated conn
   end
   def authorize_action(%Plug.Conn{assigns: %{current_user: current_user},
-                                  params: params} = conn, _roles, module) do
+                                  params: params} = conn, module) do
     apply(module, action_name(conn), [conn, params, current_user])
   end
 

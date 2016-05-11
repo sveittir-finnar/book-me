@@ -6,7 +6,7 @@ defmodule Appointments.EmployeeController do
 
   plug :scrub_params, "employee" when action in [:create, :update]
 
-  def action(conn, _), do: authorize_action conn, ["restricted", "self", "full"], __MODULE__
+  def action(conn, _), do: authorize_action conn, __MODULE__
 
   def index(conn, _params, _user) do
     employees = Repo.all(Employee)

@@ -1,16 +1,17 @@
 defmodule Appointments.Employee do
   use Appointments.Web, :model
 
-  # TODO(krummi): alias Openmaize.DB
+  alias Openmaize.DB
 
   schema "employees" do
+    field :email, :string
     field :name, :string
     field :phone, :string
     field :bio, :string
     field :avatar_url, :string
+    field :role, :string
 
-    # Openmaize stuff
-    field :email, :string
+    # Authentication
     field :password, :string, virtual: true
     field :password_hash, :string
 
@@ -28,8 +29,9 @@ defmodule Appointments.Employee do
     timestamps
   end
 
-  @required_fields ~w(name email password_hash)
+  @required_fields ~w(name email role)
   @optional_fields ~w(phone bio avatar_url
+                      password_hash
                       confirmation_token confirmation_sent_at confirmed_at
                       reset_token reset_sent_at)
 
@@ -43,6 +45,21 @@ defmodule Appointments.Employee do
     # TODO(krummi): validations
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_inclusion(:role, ["restricted", "self", "full"])
     |> unique_constraint(:email)
   end
+
+  def auth_changeset(model, params, key) do
+    model
+    |> changeset(params)
+    |> DB.add_password_hash(params)
+    |> DB.add_confirm_token(key)
+  end
+
+  def reset_changeset(model, params, key) do
+    model
+    |> cast(params, ~w(email), [])
+    |> DB.add_reset_token(key)
+  end
+
 end

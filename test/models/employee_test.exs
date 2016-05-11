@@ -2,18 +2,22 @@ defmodule Appointments.EmployeeTest do
   use Appointments.ModelCase
 
   alias Appointments.Employee
-
-  @valid_attrs %{ email: "paolo@gmail.com", name: "Paolo Maldini",
-                  password_hash: "123abc456def" }
+  @employee %{ email: "paolo@gmail.com", name: "Paolo Maldini" }
   @invalid_attrs %{ }
 
-  test "changeset with valid attributes" do
-    changeset = Employee.changeset(%Employee{}, @valid_attrs)
+  test "role needs to be one of [restricted, self, full]" do
+    params = Map.put(@employee, :role, "restricted")
+    changeset = Employee.changeset(%Employee{}, params)
     assert changeset.valid?
+
+    params = Map.put(@employee, :role, "banana")
+    changeset = Employee.changeset(%Employee{}, params)
+    refute changeset.valid?
   end
 
   test "changeset with invalid attributes" do
     changeset = Employee.changeset(%Employee{}, @invalid_attrs)
     refute changeset.valid?
   end
+
 end

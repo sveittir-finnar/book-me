@@ -24,6 +24,7 @@ defmodule Appointments.Employee do
     field :reset_token, :string
     field :reset_sent_at, Ecto.DateTime
 
+    # Associations
     belongs_to :company, Appointments.Company
 
     timestamps
@@ -31,7 +32,7 @@ defmodule Appointments.Employee do
 
   @required_fields ~w(name email role)
   @optional_fields ~w(phone bio avatar_url
-                      password_hash
+                      password_hash company_id
                       confirmation_token confirmation_sent_at confirmed_at
                       reset_token reset_sent_at)
 

@@ -29,4 +29,4 @@
   </tbody>
 </table>
 
-<%= link "New employee", to: employee_path(@conn, :new), class: "btn btn-default" %>
+<%= link "Add employee", to: employee_path(@conn, :new), class: "btn btn-default" %>

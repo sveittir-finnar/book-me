@@ -1,21 +1,24 @@
 defmodule Appointments.EmployeeController do
   use Appointments.Web, :controller
 
+  import Appointments.Authorize
   alias Appointments.Employee
 
   plug :scrub_params, "employee" when action in [:create, :update]
 
-  def index(conn, _params) do
+  def action(conn, _), do: authorize_action conn, __MODULE__
+
+  def index(conn, _params, _user) do
     employees = Repo.all(Employee)
     render(conn, "index.html", employees: employees)
   end
 
-  def new(conn, _params) do
+  def new(conn, _params, _user) do
     changeset = Employee.changeset(%Employee{})
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"employee" => employee_params}) do
+  def create(conn, %{"employee" => employee_params}, _user) do
     changeset = Employee.changeset(%Employee{}, employee_params)
 
     case Repo.insert(changeset) do
@@ -24,22 +27,23 @@ defmodule Appointments.EmployeeController do
         |> put_flash(:info, "Employee created successfully.")
         |> redirect(to: employee_path(conn, :index))
       {:error, changeset} ->
+        IO.inspect(changeset)
         render(conn, "new.html", changeset: changeset)
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id}, _user) do
     employee = Repo.get!(Employee, id)
     render(conn, "show.html", employee: employee)
   end
 
-  def edit(conn, %{"id" => id}) do
+  def edit(conn, %{"id" => id}, _user) do
     employee = Repo.get!(Employee, id)
     changeset = Employee.changeset(employee)
     render(conn, "edit.html", employee: employee, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "employee" => employee_params}) do
+  def update(conn, %{"id" => id, "employee" => employee_params}, _user) do
     employee = Repo.get!(Employee, id)
     changeset = Employee.changeset(employee, employee_params)
 
@@ -53,7 +57,7 @@ defmodule Appointments.EmployeeController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id}, _user) do
     employee = Repo.get!(Employee, id)
 
     # Here we use delete! (with a bang) because we expect

@@ -17,3 +17,9 @@ config :appointments, Appointments.Repo,
   database: "appointments_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+# Openmaize authentication configuration
+config :openmaize,
+  user_model: Appointments.Employee,
+  repo: Appointments.Repo,
+  password_strength: [min_length: 6]

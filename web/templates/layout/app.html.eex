@@ -7,21 +7,40 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello Appointments!</title>
+    <title>book.me</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="/employees">Staff</a></li>
-            <li><a href="/services">Services</a></li>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">book.me</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <%= if @current_user do %>
+              <li class="active"><a href="/employees">Staff</a></li>
+              <li><a href="/services">Services</a></li>
+            <%= end %>
           </ul>
-        </nav>
-        <h1>book.me</h1>
-      </header>
+          <ul class="nav navbar-nav navbar-right">
+            <%= if @current_user do %>
+              <li><a href="/logout">Logout <%= @current_user.name %> (<%= @current_user.company_name %>)</a></li>
+            <%= else %>
+              <li><a href="/login">Login</a></li>
+            <%= end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>

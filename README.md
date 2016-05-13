@@ -14,3 +14,8 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 ## TODOs
 
 * Add a test that verifies that an unconfirmed user cannot log in.
+* Registration of companies (and thus their first employee).
+* Filtering staff by company in staff listing.
+* Actually send email confirmation when adding employees.
+* Automatically assigning company_id when adding new employees.
+* TravisCI integration (lints + tests).

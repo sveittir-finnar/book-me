@@ -30,9 +30,8 @@ defmodule Appointments.Employee do
     timestamps
   end
 
-  @required_fields ~w(name email role)
-  @optional_fields ~w(phone bio avatar_url
-                      password_hash company_id
+  @required_fields ~w(name email role company_id)
+  @optional_fields ~w(phone bio avatar_url password_hash
                       confirmation_token confirmation_sent_at confirmed_at
                       reset_token reset_sent_at)
 

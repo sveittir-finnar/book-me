@@ -1,11 +1,6 @@
 defmodule Appointments.ConfirmTest do
   use Appointments.ConnCase
-  alias Appointments.Employee
-
-  @employees [
-    %{id: 1, email: "gladys@mail.com", name: "gladys", role: "full", password: "^hEsdg*F899"},
-    %{id: 3, email: "matt@damon.com", name: "matt", role: "full", password: "banani"}
-  ]
+  alias Appointments.{Repo, Employee, Company}
 
   @valid_link "email=gladys%40mail.com&key=pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg"
   @invalid_link "email=gladys%40mail.com&key=pu9-VNdgE8V9QzO19RLCG3KUNjpxuixg"
@@ -17,8 +12,15 @@ defmodule Appointments.ConfirmTest do
     key: "pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg"}
 
   setup do
+    # TODO(krummi): Switch to factory_girl-like fixtures.
+    company = Repo.insert! %Company{name: "The Test Company!"}
+    employees = [
+      %{id: 1, email: "gladys@mail.com", name: "gladys", role: "full", password: "^hEsdg*F899", company_id: company.id},
+      %{id: 3, email: "matt@damon.com", name: "matt", role: "full", password: "banani", company_id: company.id}
+    ]
+
     key = "pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg"
-    for employee <- @employees do
+    for employee <- employees do
       %Employee{}
       |> Employee.auth_changeset(employee, key)
       |> Employee.reset_changeset(employee, key)
@@ -26,7 +28,7 @@ defmodule Appointments.ConfirmTest do
     end
 
     conn = conn()
-    { :ok, conn: conn }
+    {:ok, conn: conn, company: company}
   end
 
   # The first two tests are for email confirmation.

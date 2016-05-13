@@ -1,14 +1,9 @@
 defmodule Appointments.AuthorizeTest do
   use Appointments.ConnCase
+  alias Appointments.{Repo, Employee, Company}
 
   import Openmaize.DB
   import OpenmaizeJWT.Create
-  alias Appointments.{Repo, Employee}
-
-  @employees [
-    %{email: "matt@damon.com", name: "matt", role: "full", password: "burrito"},
-    %{email: "jennifer@lopez.com", name: "jaylo", role: "self", password: "tacotaco"}
-  ]
 
   @valid_attrs %{email: "matt@damon.com", password: "burrito"}
   @invalid_attrs %{email: "matt@damon.com", password: "wrong-password"}
@@ -17,15 +12,22 @@ defmodule Appointments.AuthorizeTest do
   def auth_conn(), do: auth_conn(0)
   def auth_conn(id) do
     # Creates a token for Matt
-    {:ok, user_token} = %{id: id, email: "matt@damon.com", role: "full"}
+    {:ok, user_token} = %{id: id, email: "matt@damon.com", role: "full", name: "Matt", company_name: "Test", company_id: 1}
       |> generate_token({0, 86400})
 
     conn() |> put_req_cookie("access_token", user_token)
   end
 
   setup do
+    company = Repo.insert! %Company{name: "The Test Company!"}
+
+    employees = [
+      %{email: "matt@damon.com", name: "matt", role: "full", password: "burrito", company_id: company.id},
+      %{email: "jennifer@lopez.com", name: "jaylo", role: "self", password: "tacotaco", company_id: company.id}
+    ]
+
     key = "pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg"
-    new_employees = for employee <- @employees do
+    new_employees = for employee <- employees do
       %Employee{}
       |> Employee.auth_changeset(employee, key)
       |> Employee.reset_changeset(employee, key)

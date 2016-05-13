@@ -12,8 +12,8 @@ defmodule Appointments.Company do
     timestamps
   end
 
-  @required_fields ~w(name phone email description)
-  @optional_fields ~w()
+  @required_fields ~w(name)
+  @optional_fields ~w(phone email description)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

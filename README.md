@@ -20,4 +20,4 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 * Filtering staff by company in staff listing.
 * Actually send email confirmation when adding employees.
 * Automatically assigning company_id when adding new employees.
-* TravisCI integration (lints + tests).
+* Put [ex_machina](Use https://github.com/thoughtbot/ex_machina) into use.

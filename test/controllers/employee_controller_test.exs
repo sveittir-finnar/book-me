@@ -27,7 +27,7 @@ defmodule Appointments.EmployeeControllerTest do
 
     {:ok, user_token} = %{
       id: employee.id, email: "paolo@gmail.com", role: "full",
-      name: "p", company_id: 1, company_name: "hehe"
+      name: "p", company_id: company.id, company_name: company.name
     }
     |> generate_token({ 0, 86400 })
 

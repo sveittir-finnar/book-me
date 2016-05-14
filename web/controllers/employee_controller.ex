@@ -4,12 +4,17 @@ defmodule Appointments.EmployeeController do
   import Appointments.Authorize
   alias Appointments.Employee
 
+  import Ecto.Query, only: [from: 2]
+
   plug :scrub_params, "employee" when action in [:create, :update]
 
   def action(conn, _), do: authorize_action conn, __MODULE__
 
-  def index(conn, _params, _user) do
-    employees = Repo.all(Employee)
+  def index(conn, _params, user) do
+    query = from e in Employee,
+            where: e.company_id == ^user.company_id,
+            select: e
+    employees = Repo.all query
     render(conn, "index.html", employees: employees)
   end
 
@@ -59,9 +64,6 @@ defmodule Appointments.EmployeeController do
 
   def delete(conn, %{"id" => id}, _user) do
     employee = Repo.get!(Employee, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
     Repo.delete!(employee)
 
     conn

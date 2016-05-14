@@ -17,7 +17,6 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 * Add a test that verifies that an unconfirmed user cannot log in.
 * Registration of companies (and thus their first employee).
-* Filtering staff by company in staff listing.
 * Actually send email confirmation when adding employees.
 * Automatically assigning company_id when adding new employees.
-* Put [ex_machina](Use https://github.com/thoughtbot/ex_machina) into use.
+* Put [ex_machina](https://github.com/thoughtbot/ex_machina) into use.

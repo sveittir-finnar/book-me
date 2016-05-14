@@ -15,17 +15,28 @@ alias Appointments.Employee
 alias Appointments.Repo
 import Openmaize.DB
 
-# Create a company
-company_params = %Company{
+# Create some companies
+
+company1 = Repo.insert! %Company{
   name: "Hársnyrtifélagið Gæðahár",
   phone: "+354 823 9745",
   email: "harsnyrtifelagid@gmail.com"
 }
-company = Repo.insert! company_params
-IO.inspect(company)
 
-# Create an user
-employee_params = %{
+company2 = Repo.insert! %Company{
+  name: "Tannlæknastofa Héðins",
+  phone: "+354 478 1345",
+  email: "tannlaeknastofan@gmail.com"
+}
+
+IO.inspect(company1)
+
+# Create some users
+
+key = "pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg"
+
+employee1 = %Employee{}
+|> Employee.auth_changeset(%{
   email: "test@test.com",
   name: "Ari Emil Atlason",
   role: "full",
@@ -33,10 +44,35 @@ employee_params = %{
   bio: "I specialize in long cuts",
   phone: "+354 823 9745",
   avatar_url: "https://avatars2.githubusercontent.com/u/331083?v=3&s=460",
-  company_id: company.id
-}
+  company_id: company1.id
+}, key)
+|> Repo.insert!
+|> user_confirmed
 
-employee = %Employee{}
-|> Employee.auth_changeset(employee_params, "pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg")
+employee2 = %Employee{}
+|> Employee.auth_changeset(%{
+  email: "siggi@test.com",
+  name: "Sigurður Sigurðsson",
+  role: "restricted",
+  password: "testing",
+  bio: "Dreadlocks ftw!",
+  phone: "+354 848 4293",
+  avatar_url: "https://avatars3.githubusercontent.com/u/2563784?v=3&s=400",
+  company_id: company1.id
+}, key)
+|> Repo.insert!
+|> user_confirmed
+
+employee3 = %Employee{}
+|> Employee.auth_changeset(%{
+  email: "gisli@test.com",
+  name: "Gísli Marteinn Baldursson",
+  role: "full",
+  password: "testing",
+  bio: "I love white teeth",
+  phone: "+354 823 9745",
+  avatar_url: "https://avatars2.githubusercontent.com/u/331083?v=3&s=460",
+  company_id: company2.id
+}, key)
 |> Repo.insert!
 |> user_confirmed

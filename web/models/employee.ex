@@ -42,7 +42,6 @@ defmodule Appointments.Employee do
   with no validation performed.
   """
   def changeset(model, params \\ :empty) do
-    # TODO(krummi): validations
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_inclusion(:role, ["restricted", "self", "full"])

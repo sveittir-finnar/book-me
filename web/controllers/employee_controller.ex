@@ -23,7 +23,8 @@ defmodule Appointments.EmployeeController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"employee" => employee_params}, _user) do
+  def create(conn, %{"employee" => employee_params}, user) do
+    employee_params = Map.put(employee_params, "company_id", user.company_id)
     changeset = Employee.changeset(%Employee{}, employee_params)
 
     case Repo.insert(changeset) do

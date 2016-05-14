@@ -7,6 +7,7 @@ defmodule Appointments.AuthorizeTest do
 
   @valid_attrs %{email: "matt@damon.com", password: "burrito"}
   @invalid_attrs %{email: "matt@damon.com", password: "wrong-password"}
+  @nonexisting_attrs %{email: "matt@daemon.org", password: "enchillada"}
 
   # A helper to create an authenticated connection
   def auth_conn(), do: auth_conn(0)
@@ -52,6 +53,16 @@ defmodule Appointments.AuthorizeTest do
   test "login fails when the password is incorrect" do
     Repo.get_by!(Employee, email: "matt@damon.com") |> user_confirmed
     conn = post conn, "/login", user: @invalid_attrs
+    assert redirected_to(conn) == "/login"
+  end
+
+  test "login fails for non-confirmed users" do
+    conn = post conn, "/login", user: @valid_attrs
+    assert redirected_to(conn) == "/login"
+  end
+
+  test "login fails for non-existing users" do
+    conn = post conn, "/login", user: @nonexisting_attrs
     assert redirected_to(conn) == "/login"
   end
 

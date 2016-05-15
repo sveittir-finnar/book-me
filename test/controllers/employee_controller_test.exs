@@ -22,11 +22,10 @@ defmodule Appointments.EmployeeControllerTest do
     {:ok, conn: conn, user_token: user_token, company: company}
   end
 
-  # TODO(krummi): fix
-  #test "renders form for new resources", %{conn: conn} do
-  #  conn = get conn, employee_path(conn, :new)
-  #  assert html_response(conn, 200) =~ "New employee"
-  #end
+  test "renders form for new resources", %{conn: conn} do
+    conn = get conn, employee_path(conn, :new)
+    assert html_response(conn, 200) =~ "Basic Information"
+  end
 
   test "creates resource and redirects when data is valid", %{conn: conn, company: company} do
     employee = Map.put(@valid_attrs, :company_id, company.id)
@@ -35,11 +34,10 @@ defmodule Appointments.EmployeeControllerTest do
     assert Repo.get_by(Employee, @valid_attrs)
   end
 
-  # TODO(krummi): fix
-  #test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-  #  conn = post conn, employee_path(conn, :create), employee: @invalid_attrs
-  #  assert html_response(conn, 200) =~ "New employee"
-  #end
+  test "does not create resource and renders errors when data is invalid", %{conn: conn} do
+    conn = post conn, employee_path(conn, :create), employee: @invalid_attrs
+    assert html_response(conn, 200) =~ "Basic Information"
+  end
 
   test "shows chosen resource", %{conn: conn, company: company} do
     employee = insert(:employee, company_id: company.id)
@@ -50,6 +48,14 @@ defmodule Appointments.EmployeeControllerTest do
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
       get conn, employee_path(conn, :show, -1)
+    end
+  end
+
+  test "renders page not found when id belongs to another company", %{conn: conn} do
+    company2 = insert(:company)
+    employee = insert(:employee, company_id: company2.id)
+    assert_error_sent 404, fn ->
+      get conn, employee_path(conn, :show, employee.id)
     end
   end
 

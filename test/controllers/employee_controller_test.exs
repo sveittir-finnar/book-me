@@ -1,6 +1,6 @@
 defmodule Appointments.EmployeeControllerTest do
   use Appointments.ConnCase
-  alias Appointments.{Repo, Employee, Company}
+  alias Appointments.{Repo, Employee}
 
   @valid_attrs %{ email: "david@bowie.com", name: "David Bowie", role: "restricted" }
   @invalid_attrs %{ }
@@ -8,22 +8,8 @@ defmodule Appointments.EmployeeControllerTest do
   import OpenmaizeJWT.Create
 
   setup do
-    # TODO(krummi): Use https://github.com/thoughtbot/ex_machina
-    company = Repo.insert! %Company{name: "The Test Company!"}
-
-    employee_params = %{
-      email: "paolo@gmail.com",
-      name: "Paolo Maldini",
-      role: "full",
-      password: "acmilan",
-      company_id: company.id
-    }
-
-    key = "pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg"
-    employee = %Employee{}
-    |> Employee.auth_changeset(employee_params, key)
-    |> Employee.reset_changeset(employee_params, key)
-    |> Repo.insert!
+    company = insert(:company)
+    employee = insert(:employee, company_id: company.id)
 
     {:ok, user_token} = %{
       id: employee.id, email: "paolo@gmail.com", role: "full",
@@ -31,16 +17,15 @@ defmodule Appointments.EmployeeControllerTest do
     }
     |> generate_token({ 0, 86400 })
 
-    conn = conn()
-    |> put_req_cookie("access_token", user_token)
+    conn = conn() |> put_req_cookie("access_token", user_token)
+
     {:ok, conn: conn, user_token: user_token, company: company}
   end
 
-  # TODO(krummi): fix
-  #test "renders form for new resources", %{conn: conn} do
-  #  conn = get conn, employee_path(conn, :new)
-  #  assert html_response(conn, 200) =~ "New employee"
-  #end
+  test "renders form for new resources", %{conn: conn} do
+    conn = get conn, employee_path(conn, :new)
+    assert html_response(conn, 200) =~ "Basic Information"
+  end
 
   test "creates resource and redirects when data is valid", %{conn: conn, company: company} do
     employee = Map.put(@valid_attrs, :company_id, company.id)
@@ -49,16 +34,13 @@ defmodule Appointments.EmployeeControllerTest do
     assert Repo.get_by(Employee, @valid_attrs)
   end
 
-  # TODO(krummi): fix
-  #test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-  #  conn = post conn, employee_path(conn, :create), employee: @invalid_attrs
-  #  assert html_response(conn, 200) =~ "New employee"
-  #end
+  test "does not create resource and renders errors when data is invalid", %{conn: conn} do
+    conn = post conn, employee_path(conn, :create), employee: @invalid_attrs
+    assert html_response(conn, 200) =~ "Basic Information"
+  end
 
   test "shows chosen resource", %{conn: conn, company: company} do
-    employee = Repo.insert! %Employee{
-      email: "ari@gmail.com", name: "ari", role: "full", company_id: company.id
-    }
+    employee = insert(:employee, company_id: company.id)
     conn = get conn, employee_path(conn, :show, employee)
     assert html_response(conn, 200) =~ "Show employee"
   end
@@ -69,6 +51,14 @@ defmodule Appointments.EmployeeControllerTest do
     end
   end
 
+  test "renders page not found when id belongs to another company", %{conn: conn} do
+    company2 = insert(:company)
+    employee = insert(:employee, company_id: company2.id)
+    assert_error_sent 404, fn ->
+      get conn, employee_path(conn, :show, employee.id)
+    end
+  end
+
   # TODO(krummi): fix
   #test "renders form for editing chosen resource", %{conn: conn} do
   #  employee = Repo.insert! %Employee{}
@@ -76,7 +66,8 @@ defmodule Appointments.EmployeeControllerTest do
   #  assert html_response(conn, 200) =~ "Edit employee"
   #end
 
-  test "updates chosen resource and redirects when data is valid", %{conn: conn, company: company} do
+  test "updates chosen resource and redirects when data is valid",
+    %{conn: conn, company: company} do
     employee = Repo.insert! %Employee{
       email: "ari@gmail.com", name: "ari", role: "full", company_id: company.id
     }

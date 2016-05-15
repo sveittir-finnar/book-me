@@ -60,11 +60,11 @@ defmodule Appointments.EmployeeControllerTest do
   end
 
   # TODO(krummi): fix
-  #test "renders form for editing chosen resource", %{conn: conn} do
+  # test "renders form for editing chosen resource", %{conn: conn} do
   #  employee = Repo.insert! %Employee{}
   #  conn = get conn, employee_path(conn, :edit, employee)
   #  assert html_response(conn, 200) =~ "Edit employee"
-  #end
+  # end
 
   test "updates chosen resource and redirects when data is valid",
     %{conn: conn, company: company} do
@@ -77,11 +77,11 @@ defmodule Appointments.EmployeeControllerTest do
   end
 
   # TODO(krummi): fix
-  #test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
+  # test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
   #  employee = Repo.insert! %Employee{}
   #  conn = put conn, employee_path(conn, :update, employee), employee: @invalid_attrs
   #  assert html_response(conn, 200) =~ "Edit employee"
-  #end
+  # end
 
   test "deletes chosen resource", %{conn: conn, company: company} do
     employee = Repo.insert! %Employee{

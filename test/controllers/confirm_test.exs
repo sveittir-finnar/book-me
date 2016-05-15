@@ -15,8 +15,18 @@ defmodule Appointments.ConfirmTest do
     # TODO(krummi): Switch to factory_girl-like fixtures.
     company = Repo.insert! %Company{name: "The Test Company!"}
     employees = [
-      %{id: 1, email: "gladys@mail.com", name: "gladys", role: "full", password: "^hEsdg*F899", company_id: company.id},
-      %{id: 3, email: "matt@damon.com", name: "matt", role: "full", password: "banani", company_id: company.id}
+      %{id: 1,
+        email: "gladys@mail.com",
+        name: "gladys",
+        role: "full",
+        password: "^hEsdg*F899",
+        company_id: company.id},
+      %{id: 3,
+        email: "matt@damon.com",
+        name: "matt",
+        role: "full",
+        password: "banani",
+        company_id: company.id}
     ]
 
     key = "pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg"

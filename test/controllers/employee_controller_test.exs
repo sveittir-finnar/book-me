@@ -1,6 +1,6 @@
 defmodule Appointments.EmployeeControllerTest do
   use Appointments.ConnCase
-  alias Appointments.{Repo, Employee, Company}
+  alias Appointments.{Repo, Employee}
 
   @valid_attrs %{ email: "david@bowie.com", name: "David Bowie", role: "restricted" }
   @invalid_attrs %{ }
@@ -8,22 +8,8 @@ defmodule Appointments.EmployeeControllerTest do
   import OpenmaizeJWT.Create
 
   setup do
-    # TODO(krummi): Use https://github.com/thoughtbot/ex_machina
-    company = Repo.insert! %Company{name: "The Test Company!"}
-
-    employee_params = %{
-      email: "paolo@gmail.com",
-      name: "Paolo Maldini",
-      role: "full",
-      password: "acmilan",
-      company_id: company.id
-    }
-
-    key = "pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg"
-    employee = %Employee{}
-    |> Employee.auth_changeset(employee_params, key)
-    |> Employee.reset_changeset(employee_params, key)
-    |> Repo.insert!
+    company = insert(:company)
+    employee = insert(:employee, company_id: company.id)
 
     {:ok, user_token} = %{
       id: employee.id, email: "paolo@gmail.com", role: "full",
@@ -31,8 +17,8 @@ defmodule Appointments.EmployeeControllerTest do
     }
     |> generate_token({ 0, 86400 })
 
-    conn = conn()
-    |> put_req_cookie("access_token", user_token)
+    conn = conn() |> put_req_cookie("access_token", user_token)
+
     {:ok, conn: conn, user_token: user_token, company: company}
   end
 
@@ -56,9 +42,7 @@ defmodule Appointments.EmployeeControllerTest do
   #end
 
   test "shows chosen resource", %{conn: conn, company: company} do
-    employee = Repo.insert! %Employee{
-      email: "ari@gmail.com", name: "ari", role: "full", company_id: company.id
-    }
+    employee = insert(:employee, company_id: company.id)
     conn = get conn, employee_path(conn, :show, employee)
     assert html_response(conn, 200) =~ "Show employee"
   end
@@ -76,7 +60,8 @@ defmodule Appointments.EmployeeControllerTest do
   #  assert html_response(conn, 200) =~ "Edit employee"
   #end
 
-  test "updates chosen resource and redirects when data is valid", %{conn: conn, company: company} do
+  test "updates chosen resource and redirects when data is valid",
+    %{conn: conn, company: company} do
     employee = Repo.insert! %Employee{
       email: "ari@gmail.com", name: "ari", role: "full", company_id: company.id
     }

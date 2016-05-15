@@ -19,7 +19,7 @@ defmodule Appointments.Mixfile do
   def application do
     [mod: {Appointments, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :ex_machina,
+                    :phoenix_ecto, :postgrex,
                     :openmaize, :openmaize_jwt]]
   end
 

@@ -26,6 +26,7 @@ defmodule Appointments.ConnCase do
       import Ecto.Query, only: [from: 1, from: 2]
 
       import Appointments.Router.Helpers
+      import Appointments.Factory
 
       # The default endpoint for testing
       @endpoint Appointments.Endpoint

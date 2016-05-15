@@ -33,24 +33,23 @@ defmodule Appointments.EmployeeController do
         |> put_flash(:info, "Employee created successfully.")
         |> redirect(to: employee_path(conn, :index))
       {:error, changeset} ->
-        IO.inspect(changeset)
         render(conn, "new.html", changeset: changeset)
     end
   end
 
-  def show(conn, %{"id" => id}, _user) do
-    employee = Repo.get!(Employee, id)
+  def show(conn, %{"id" => id}, user) do
+    employee = get_employee(id, user)
     render(conn, "show.html", employee: employee)
   end
 
-  def edit(conn, %{"id" => id}, _user) do
-    employee = Repo.get!(Employee, id)
+  def edit(conn, %{"id" => id}, user) do
+    employee = get_employee(id, user)
     changeset = Employee.changeset(employee)
     render(conn, "edit.html", employee: employee, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "employee" => employee_params}, _user) do
-    employee = Repo.get!(Employee, id)
+  def update(conn, %{"id" => id, "employee" => employee_params}, user) do
+    employee = get_employee(id, user)
     changeset = Employee.changeset(employee, employee_params)
 
     case Repo.update(changeset) do
@@ -63,12 +62,19 @@ defmodule Appointments.EmployeeController do
     end
   end
 
-  def delete(conn, %{"id" => id}, _user) do
-    employee = Repo.get!(Employee, id)
+  def delete(conn, %{"id" => id}, user) do
+    employee = get_employee(id, user)
     Repo.delete!(employee)
 
     conn
     |> put_flash(:info, "Employee deleted successfully.")
     |> redirect(to: employee_path(conn, :index))
+  end
+
+  defp get_employee(id, user) do
+    query = from e in Employee,
+      where: e.id == ^id and e.company_id == ^user.company_id,
+      select: e
+    Repo.one!(query)
   end
 end

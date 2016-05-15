@@ -19,7 +19,7 @@ defmodule Appointments.Mixfile do
   def application do
     [mod: {Appointments, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex,
+                    :phoenix_ecto, :postgrex, :ex_machina,
                     :openmaize, :openmaize_jwt]]
   end
 
@@ -35,6 +35,7 @@ defmodule Appointments.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_ecto, "~> 2.0"},
      {:phoenix_html, "~> 2.4"},
+     {:ex_machina, "~> 1.0.0-beta.1", github: "thoughtbot/ex_machina", only: :test},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},

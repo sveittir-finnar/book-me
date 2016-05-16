@@ -13,10 +13,11 @@ defmodule Appointments.Router do
   scope "/", Appointments do
     pipe_through :browser
 
-    get "/", PageController, :indexs
+    get "/", PageController, :index
 
     # authentication
     get "/registration", PageController, :registration
+    post "/registration", PageController, :registration_post
     get "/confirm", PageController, :confirm
     get "/reset", PageController, :askreset
     post "/reset", PageController, :askreset_password

@@ -2,6 +2,7 @@ defmodule Appointments.PageController do
   use Appointments.Web, :controller
 
   import Appointments.{Authorize, Confirm}
+  alias Appointments.{Company, Employee}
 
   # TODO(krummi): Send this as an email
   def receipt_confirm(email) do
@@ -52,6 +53,23 @@ defmodule Appointments.PageController do
 
   def registration(conn, params) do
     render conn, "registration.html"
+  end
+
+  def registration_post(conn, params) do
+    changeset = Company.changeset(%Company{}, %{
+      name: params["reg"]["company_name"]
+    })
+
+    case Repo.insert(changeset) do
+      {:ok, _company} ->
+        conn
+        |> put_flash(:info, "Dawg c0wl.")
+        |> redirect(to: page_path(conn, :index))
+      {:error, changeset} ->
+        conn
+        |> put_flash(:info, "Error hit!")
+        render(conn, "registration.html", changeset: changeset)
+    end
   end
 
   def login_user(conn, params) do

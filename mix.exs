@@ -9,6 +9,8 @@ defmodule Appointments.Mixfile do
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
      aliases: aliases,
      deps: deps]
   end
@@ -35,13 +37,14 @@ defmodule Appointments.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_ecto, "~> 2.0"},
      {:phoenix_html, "~> 2.4"},
-     {:ex_machina, "~> 1.0.0-beta.1", github: "thoughtbot/ex_machina", only: :test},
-     {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:credo, "~> 0.3", only: [:dev, :test]},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:openmaize, "~> 0.18"},
-     {:openmaize_jwt, "~> 0.9"}]
+     {:openmaize_jwt, "~> 0.9"},
+     {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:excoveralls, "~> 0.5", only: :test},
+     {:credo, "~> 0.3", only: [:dev, :test]},
+     {:ex_machina, "~> 1.0.0-beta.1", github: "thoughtbot/ex_machina", only: :test}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

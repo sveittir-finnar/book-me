@@ -50,6 +50,10 @@ defmodule Appointments.PageController do
     render conn, "login.html"
   end
 
+  def registration(conn, params) do
+    render conn, "registration.html"
+  end
+
   def login_user(conn, params) do
     handle_login conn, params
   end

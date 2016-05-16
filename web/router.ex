@@ -10,17 +10,13 @@ defmodule Appointments.Router do
     plug Openmaize.Authenticate
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   scope "/", Appointments do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", PageController, :indexs
 
     # authentication
-    get "/", PageController, :index
+    get "/registration", PageController, :registration
     get "/confirm", PageController, :confirm
     get "/reset", PageController, :askreset
     post "/reset", PageController, :askreset_password
@@ -34,8 +30,4 @@ defmodule Appointments.Router do
     resources "/employees", EmployeeController
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Appointments do
-  #   pipe_through :api
-  # end
 end

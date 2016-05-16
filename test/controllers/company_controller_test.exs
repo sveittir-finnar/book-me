@@ -2,7 +2,10 @@ defmodule Appointments.CompanyControllerTest do
   use Appointments.ConnCase
 
   alias Appointments.Company
-  @valid_attrs %{description: "some content", email: "some content", name: "some content", phone: "some content"}
+  @valid_attrs %{description: "some content",
+                 email: "some content",
+                 name: "some content",
+                 phone: "some content"}
   @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do

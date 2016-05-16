@@ -3,7 +3,10 @@ defmodule Appointments.CompanyTest do
 
   alias Appointments.Company
 
-  @valid_attrs %{description: "some content", email: "some content", name: "some content", phone: "some content"}
+  @valid_attrs %{description: "some content",
+                 email: "some content",
+                 name: "some content",
+                 phone: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

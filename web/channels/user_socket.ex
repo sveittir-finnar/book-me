@@ -1,10 +1,10 @@
 defmodule Appointments.UserSocket do
   use Phoenix.Socket
 
-  ## Channels
+  # Channels
   # channel "rooms:*", Appointments.RoomChannel
 
-  ## Transports
+  # Transports
   transport :websocket, Phoenix.Transports.WebSocket
   # transport :longpoll, Phoenix.Transports.LongPoll
 

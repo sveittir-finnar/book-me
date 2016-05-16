@@ -37,6 +37,7 @@ defmodule Appointments.Mixfile do
      {:phoenix_html, "~> 2.4"},
      {:ex_machina, "~> 1.0.0-beta.1", github: "thoughtbot/ex_machina", only: :test},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:credo, "~> 0.3", only: [:dev, :test]},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:openmaize, "~> 0.18"},

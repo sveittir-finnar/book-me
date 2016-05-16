@@ -10,11 +10,17 @@ defmodule Appointments.AuthorizeTest do
   @nonexisting_attrs %{email: "matt@daemon.org", password: "enchillada"}
 
   # A helper to create an authenticated connection
-  def auth_conn(), do: auth_conn(0)
+  def auth_conn, do: auth_conn(0)
   def auth_conn(id) do
     # Creates a token for Matt
-    {:ok, user_token} = %{id: id, email: "matt@damon.com", role: "full", name: "Matt", company_name: "Test", company_id: 1}
-      |> generate_token({0, 86400})
+    {:ok, user_token} = %{
+      id: id,
+      email: "matt@damon.com",
+      role: "full",
+      name: "Matt",
+      company_name: "Test",
+      company_id: 1}
+    |> generate_token({0, 86400})
 
     conn() |> put_req_cookie("access_token", user_token)
   end
@@ -23,8 +29,16 @@ defmodule Appointments.AuthorizeTest do
     company = Repo.insert! %Company{name: "The Test Company!"}
 
     employees = [
-      %{email: "matt@damon.com", name: "matt", role: "full", password: "burrito", company_id: company.id},
-      %{email: "jennifer@lopez.com", name: "jaylo", role: "self", password: "tacotaco", company_id: company.id}
+      %{email: "matt@damon.com",
+        name: "matt",
+        role: "full",
+        password: "burrito",
+        company_id: company.id},
+      %{email: "jennifer@lopez.com",
+        name: "jaylo",
+        role: "self",
+        password: "tacotaco",
+        company_id: company.id}
     ]
 
     key = "pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg"

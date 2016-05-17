@@ -10,6 +10,10 @@ defmodule Appointments.Router do
     plug Openmaize.Authenticate
   end
 
+  pipeline :json do
+    plug :accepts, ["json"]
+  end
+
   scope "/", Appointments do
     pipe_through :browser
 
@@ -29,6 +33,12 @@ defmodule Appointments.Router do
 
     resources "/companies", CompanyController
     resources "/employees", EmployeeController
+  end
+
+  scope "/", Appointments do
+    pipe_through :json
+
+    post "/registration", PageController, :registration_post
   end
 
 end

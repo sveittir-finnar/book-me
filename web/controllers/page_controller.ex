@@ -55,20 +55,28 @@ defmodule Appointments.PageController do
     render conn, "registration.html"
   end
 
-  def registration_post(conn, params) do
-    changeset = Company.changeset(%Company{}, %{
-      name: params["reg"]["company_name"]
-    })
+  def registration_post(conn, %{"reg" => registration_params}) do
+      company_changeset = Company.changeset(%Company{}, %{
+        name: registration_params["company_name"]
+      })
+      employee_changeset = Employee.changeset(%Employee{}, %{
+        name: registration_params["first_name"] <> registration_params["last_name"],
+        email: registration_params["email"],
+        role: "full"
+      })
 
-    case Repo.insert(changeset) do
-      {:ok, _company} ->
-        conn
-        |> put_flash(:info, "Dawg c0wl.")
-        |> redirect(to: page_path(conn, :index))
-      {:error, changeset} ->
-        conn
-        |> put_flash(:info, "Error hit!")
-        render(conn, "registration.html", changeset: changeset)
+      Repo.transaction fn ->
+        company = Repo.insert!(company_changeset)
+        employee = Ecto.build_assoc(company, :employees, employee_changeset)
+        Repo.insert!(employee)
+      end
+      conn
+      |> redirect(to: page_path(conn, :index))
+    else
+      IO.inspect(changeset)
+      conn
+      |> put_flash(:info, "Please correct the following errors in your form.")
+      render(conn, "registration.html", changeset: changeset)
     end
   end
 

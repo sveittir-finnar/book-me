@@ -52,11 +52,6 @@ defmodule Appointments.Web do
       import Appointments.Router.Helpers
       import Appointments.ErrorHelpers
       import Appointments.Gettext
-
-      def csrf_token(conn) do
-        alias Plug.Conn
-        Conn.get_session(conn, :csrf_token)
-      end
     end
   end
 

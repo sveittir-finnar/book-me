@@ -20,7 +20,7 @@ defmodule Appointments.Router do
     get "/", PageController, :index
 
     # authentication
-    get "/registration", PageController, :registration
+    get "/registration", RegistrationController, :registration
     get "/confirm", PageController, :confirm
     get "/reset", PageController, :askreset
     post "/reset", PageController, :askreset_password
@@ -37,7 +37,7 @@ defmodule Appointments.Router do
   scope "/", Appointments do
     pipe_through :api
 
-    post "/registration", PageController, :registration_post
+    post "/registration", RegistrationController, :registration_post
   end
 
 end

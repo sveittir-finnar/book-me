@@ -46,6 +46,8 @@ defmodule Appointments.Employee do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_inclusion(:role, ["restricted", "self", "full"])
+    |> validate_length(:first_name, min: 2, max: 100)
+    |> validate_length(:last_name, min: 2, max: 100)
     |> unique_constraint(:email)
   end
 

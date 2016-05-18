@@ -85,7 +85,8 @@ defmodule Appointments.AuthorizeTest do
 
   test "logout succeeds and redirects to /" do
     {:ok, user_token} = %{id: 3, email: "matt@damon.com", role: "full"}
-      |> generate_token({0, 86400})
+    |> generate_token({0, 86400})
+
     conn = conn()
     |> put_req_cookie("access_token", user_token)
     |> get("/logout")

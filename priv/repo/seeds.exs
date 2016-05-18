@@ -38,7 +38,8 @@ key = "pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg"
 employee1 = %Employee{}
 |> Employee.auth_changeset(%{
   email: "test@test.com",
-  name: "Ari Emil Atlason",
+  first_name: "Ari Emil",
+  last_name: "Atlason",
   role: "full",
   password: "testing",
   bio: "I specialize in long cuts",
@@ -52,7 +53,8 @@ employee1 = %Employee{}
 employee2 = %Employee{}
 |> Employee.auth_changeset(%{
   email: "siggi@test.com",
-  name: "Sigurður Sigurðsson",
+  first_name: "Sigurður",
+  last_name: "Sigurðsson",
   role: "restricted",
   password: "testing",
   bio: "Dreadlocks ftw!",
@@ -66,7 +68,8 @@ employee2 = %Employee{}
 employee3 = %Employee{}
 |> Employee.auth_changeset(%{
   email: "gisli@test.com",
-  name: "Gísli Marteinn Baldursson",
+  first_name: "Gísli Marteinn",
+  last_name: "Baldursson",
   role: "full",
   password: "testing",
   bio: "I love white teeth",

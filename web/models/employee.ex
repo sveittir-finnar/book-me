@@ -5,7 +5,8 @@ defmodule Appointments.Employee do
 
   schema "employees" do
     field :email, :string
-    field :name, :string
+    field :first_name, :string
+    field :last_name, :string
     field :phone, :string
     field :bio, :string
     field :avatar_url, :string
@@ -30,7 +31,7 @@ defmodule Appointments.Employee do
     timestamps
   end
 
-  @required_fields ~w(name email role company_id)
+  @required_fields ~w(first_name last_name email role company_id)
   @optional_fields ~w(phone bio avatar_url password_hash
                       confirmation_token confirmation_sent_at confirmed_at
                       reset_token reset_sent_at)

@@ -1,5 +1,6 @@
 defmodule Appointments.RegistrationControllerTest do
   use Appointments.ConnCase
+  alias Appointments.Company
 
   @valid_company %{"name": "dawg inc"}
   @valid_employee %{
@@ -26,6 +27,10 @@ defmodule Appointments.RegistrationControllerTest do
       employee: %{"first_name" => "Aron"}
     })
     assert json_response(conn, :unprocessable_entity)
+
+    # Also test whether the company exists; that should not happen since
+    # the transaction that created the company should've been rolled back
+    refute Repo.get_by(Company, @valid_company)
   end
 
   test "should fail when email is already in use", %{conn: conn} do
@@ -44,5 +49,7 @@ defmodule Appointments.RegistrationControllerTest do
       employee: @valid_employee
     })
     assert json_response(conn, :created)
+
+    assert Repo.get_by(Company, @valid_company)
   end
 end

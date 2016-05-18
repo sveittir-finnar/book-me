@@ -13,7 +13,7 @@ defmodule Appointments.PageController do
   import OpenmaizeJWT.Create
   def add_token(conn, user, {storage, uniq}) do
     company = Repo.get!(Appointments.Company, user.company_id)
-    user = Map.take(user, [:id, :name, :role, :company_id, uniq])
+    user = Map.take(user, [:id, :first_name, :role, :company_id, uniq])
     |> Map.put(:company_name, company.name)
     # TODO(krummi): Make 120 a configuration option.
     {:ok, token} = generate_token user, {0, 120}

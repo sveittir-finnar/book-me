@@ -9,9 +9,10 @@ defmodule Appointments.Factory do
   def employee_factory do
     %Employee{
       email: sequence(:email, &"employee-#{&1}@my.email"),
-      name: "Sveppi Grill",
+      first_name: "Sveppi",
+      last_name: "Grill",
       role: "full",
-      password: "krusty",
+      password: "krusty"
     }
   end
 

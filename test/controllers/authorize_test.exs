@@ -17,7 +17,8 @@ defmodule Appointments.AuthorizeTest do
       id: id,
       email: "matt@damon.com",
       role: "full",
-      name: "Matt",
+      first_name: "Matt",
+      last_name: "Damon",
       company_name: "Test",
       company_id: 1}
     |> generate_token({0, 86400})
@@ -30,12 +31,14 @@ defmodule Appointments.AuthorizeTest do
 
     employees = [
       %{email: "matt@damon.com",
-        name: "matt",
+        first_name: "Matt",
+        last_name: "Damon",
         role: "full",
         password: "burrito",
         company_id: company.id},
       %{email: "jennifer@lopez.com",
-        name: "jaylo",
+        first_name: "Jennifer",
+        last_name: "Lopez",
         role: "self",
         password: "tacotaco",
         company_id: company.id}
@@ -49,8 +52,8 @@ defmodule Appointments.AuthorizeTest do
       |> Repo.insert!
     end
 
-    jaylo = Enum.find new_employees, &(&1.name == "jaylo")
-    matt = Enum.find new_employees, &(&1.name == "matt")
+    jaylo = Enum.find new_employees, &(&1.first_name == "Jennifer")
+    matt = Enum.find new_employees, &(&1.first_name == "Matt")
 
     {:ok, matt: matt, jaylo: jaylo}
   end

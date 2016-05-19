@@ -48,6 +48,7 @@ defmodule Appointments.Employee do
     |> validate_inclusion(:role, ["restricted", "self", "full"])
     |> validate_length(:first_name, min: 2, max: 100)
     |> validate_length(:last_name, min: 2, max: 100)
+    |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
   end
 

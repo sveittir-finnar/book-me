@@ -8,12 +8,8 @@ defmodule Appointments.RegistrationController do
   end
 
   def registration_post(conn, %{"employee" => employee_params, "company" => company_params}) do
-    employee_params = Map.put(employee_params, "role", "full")
     # HACK: Set this temporarily so the company_id validation will not trigger
-    employee_params = Map.put(employee_params, "company_id", -1)
-
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
-
+    employee_params = Map.merge(employee_params, %{"role" => "full", "company_id" => -1})
     company_changeset = Company.changeset(%Company{}, company_params)
     employee_changeset = Employee.changeset(%Employee{}, employee_params)
 

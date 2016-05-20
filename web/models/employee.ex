@@ -14,6 +14,7 @@ defmodule Appointments.Employee do
 
     # Authentication
     field :password, :string, virtual: true
+    field :password_confirmation, :string, virtual: true
     field :password_hash, :string
 
     # Email confirmation
@@ -34,7 +35,7 @@ defmodule Appointments.Employee do
   @required_fields ~w(first_name last_name email role company_id)
   @optional_fields ~w(phone bio avatar_url password_hash
                       confirmation_token confirmation_sent_at confirmed_at
-                      reset_token reset_sent_at)
+                      reset_token reset_sent_at password)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -46,15 +47,17 @@ defmodule Appointments.Employee do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_inclusion(:role, ["restricted", "self", "full"])
-    |> validate_length(:first_name, min: 2, max: 100)
-    |> validate_length(:last_name, min: 2, max: 100)
+    |> validate_length(:first_name, min: 1, max: 100)
+    |> validate_length(:last_name, min: 1, max: 100)
     |> validate_format(:email, ~r/@/)
+    |> update_change(:email, &String.downcase/1)
     |> unique_constraint(:email)
   end
 
   def auth_changeset(model, params, key) do
     model
     |> changeset(params)
+    |> validate_confirmation(:password, message: "passwords do not match")
     |> DB.add_password_hash(params)
     |> DB.add_confirm_token(key)
   end

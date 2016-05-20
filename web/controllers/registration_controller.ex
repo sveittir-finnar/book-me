@@ -11,7 +11,7 @@ defmodule Appointments.RegistrationController do
     # HACK: Set this temporarily so the company_id validation will not trigger
     employee_params = Map.merge(employee_params, %{"role" => "full", "company_id" => -1})
     company_changeset = Company.changeset(%Company{}, company_params)
-    employee_changeset = Employee.changeset(%Employee{}, employee_params)
+    employee_changeset = Employee.auth_changeset(%Employee{}, employee_params, "banani")
 
     if company_changeset.valid? && employee_changeset.valid? do
       # TODO(krummi): Use Ecto.Multi when we start using Ecto 2.0

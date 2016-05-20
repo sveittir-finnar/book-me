@@ -1,0 +1,42 @@
+<h2>Listing services</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Duration</th>
+      <th>Cleanup duration</th>
+      <th>Pricing type</th>
+      <th>Price</th>
+      <th>Public</th>
+      <th>Can pick employee</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for service <- @services do %>
+    <tr>
+      <td><%= service.id %></td>
+      <td><%= service.name %></td>
+      <td><%= service.description %></td>
+      <td><%= service.duration %></td>
+      <td><%= service.cleanup_duration %></td>
+      <td><%= service.pricing_type %></td>
+      <td><%= service.price %></td>
+      <td><%= service.public %></td>
+      <td><%= service.can_pick_employee %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: service_path(@conn, :show, service), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: service_path(@conn, :edit, service), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: service_path(@conn, :delete, service), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New service", to: service_path(@conn, :new) %>

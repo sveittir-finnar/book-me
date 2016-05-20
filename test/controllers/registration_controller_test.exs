@@ -82,6 +82,10 @@ defmodule Appointments.RegistrationControllerTest do
       employee: @valid_employee
     })
     assert json_response(conn, :created)
+    assert Enum.map(
+      conn.resp_headers, &(elem(&1, 0) == "set-cookie")) |> Enum.any?
     assert Repo.get_by(Company, @valid_company)
+    assert Repo.get_by(Employee,
+      Map.drop(@valid_employee, [:password, :password_confirmation]))
   end
 end

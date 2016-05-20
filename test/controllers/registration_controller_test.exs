@@ -1,14 +1,14 @@
 defmodule Appointments.RegistrationControllerTest do
   use Appointments.ConnCase
-  alias Appointments.Company
+  alias Appointments.{Company, Employee}
 
-  @valid_company %{"name": "dawg inc"}
+  @valid_company %{name: "dawg inc"}
   @valid_employee %{
-    "first_name" => "Aron",
-    "last_name" => "Edvardsson",
-    "email" => "aron@edvarsson.com",
-    "password" => "passwd",
-    "password_confirmation" => "passwd"
+    first_name: "Aron",
+    last_name: "Edvardsson",
+    email: "aron@edvarsson.com",
+    password: "passwd",
+    password_confirmation: "passwd"
   }
 
   # Validation error helper
@@ -51,7 +51,7 @@ defmodule Appointments.RegistrationControllerTest do
     employee = insert(:employee, company_id: company.id)
     conn = post(conn, registration_path(conn, :registration_post), %{
       company: @valid_company,
-      employee: %{@valid_employee | "email" => employee.email}
+      employee: %{@valid_employee | email: employee.email}
     })
     assert has_validation_error(conn, "employee", "email")
   end
@@ -61,7 +61,7 @@ defmodule Appointments.RegistrationControllerTest do
     employee = insert(:employee, company_id: company.id)
     conn = post(conn, registration_path(conn, :registration_post), %{
       company: @valid_company,
-      employee: %{@valid_employee | "email" => String.upcase(employee.email)}
+      employee: %{@valid_employee | email: String.upcase(employee.email)}
     })
     assert has_validation_error(conn, "employee", "email")
   end

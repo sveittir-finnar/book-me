@@ -9,15 +9,21 @@ defmodule Appointments.PageController do
     IO.puts("confirming: #{email}")
   end
 
-  plug Openmaize.ConfirmEmail, [key_expires_after: 30,
-    mail_function: &__MODULE__.receipt_confirm/1] when action in [:confirm]
-  plug Openmaize.ResetPassword, [key_expires_after: 30,
-    mail_function: &__MODULE__.receipt_confirm/1] when action in [:reset_password]
+  plug Openmaize.ConfirmEmail, [
+    key_expires_after: 30,
+    mail_function: &__MODULE__.receipt_confirm/1
+  ] when action in [:confirm]
+
+  plug Openmaize.ResetPassword, [
+    key_expires_after: 30,
+    mail_function: &__MODULE__.receipt_confirm/1
+  ] when action in [:reset_password]
 
   plug Openmaize.Login, [
     unique_id: :email,
     add_jwt: &Appointments.JWT.add_token/3
   ] when action in [:login_user]
+
   plug Openmaize.Logout when action in [:logout]
 
   def index(conn, _params) do

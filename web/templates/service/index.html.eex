@@ -8,8 +8,7 @@
       <th>Description</th>
       <th>Duration</th>
       <th>Cleanup duration</th>
-      <th>Pricing type</th>
-      <th>Price</th>
+      <th>Pricing</th>
       <th>Public</th>
       <th>Can pick employee</th>
 
@@ -24,9 +23,8 @@
       <td><%= service.description %></td>
       <td><%= service.duration %></td>
       <td><%= service.cleanup_duration %></td>
-      <td><%= service.pricing_type %></td>
-      <td><%= service.price %></td>
-      <td><%= service.public %></td>
+      <td><%= service.pricing %></td>
+      <td><%= service.is_public %></td>
       <td><%= service.can_pick_employee %></td>
 
       <td class="text-right">

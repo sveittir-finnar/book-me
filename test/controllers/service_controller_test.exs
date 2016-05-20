@@ -2,8 +2,17 @@ defmodule Appointments.ServiceControllerTest do
   use Appointments.ConnCase
 
   alias Appointments.Service
-  @valid_attrs %{can_pick_employee: true, cleanup_duration: 42, description: "some content", duration: 42, id: "7488a646-e31f-11e4-aace-600308960662", name: "some content", price: "some content", pricing_type: "some content", public: true}
-  @invalid_attrs %{}
+  @valid_service %{
+    can_pick_employee: true,
+    cleanup_duration: 42,
+    description: "some content",
+    duration: 42,
+    id: "7488a646-e31f-11e4-aace-600308960662",
+    name: "some content",
+    pricing: "some content",
+    is_public: true
+  }
+  @invalid_service %{}
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, service_path(conn, :index)
@@ -16,13 +25,13 @@ defmodule Appointments.ServiceControllerTest do
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
-    conn = post conn, service_path(conn, :create), service: @valid_attrs
+    conn = post conn, service_path(conn, :create), service: @valid_service
     assert redirected_to(conn) == service_path(conn, :index)
-    assert Repo.get_by(Service, @valid_attrs)
+    assert Repo.get_by(Service, @valid_service)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, service_path(conn, :create), service: @invalid_attrs
+    conn = post conn, service_path(conn, :create), service: @invalid_service
     assert html_response(conn, 200) =~ "New service"
   end
 
@@ -46,14 +55,14 @@ defmodule Appointments.ServiceControllerTest do
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
     service = Repo.insert! %Service{}
-    conn = put conn, service_path(conn, :update, service), service: @valid_attrs
+    conn = put conn, service_path(conn, :update, service), service: @valid_service
     assert redirected_to(conn) == service_path(conn, :show, service)
-    assert Repo.get_by(Service, @valid_attrs)
+    assert Repo.get_by(Service, @valid_service)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
     service = Repo.insert! %Service{}
-    conn = put conn, service_path(conn, :update, service), service: @invalid_attrs
+    conn = put conn, service_path(conn, :update, service), service: @invalid_service
     assert html_response(conn, 200) =~ "Edit service"
   end
 

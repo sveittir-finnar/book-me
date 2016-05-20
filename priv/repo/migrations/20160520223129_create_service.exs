@@ -11,10 +11,9 @@ defmodule Appointments.Repo.Migrations.CreateService do
       add :duration, :integer, null: false
       add :cleanup_duration, :integer, default: 0
 
-      add :pricing_type, :string, null: false
-      add :price, :string
+      add :pricing, :string
 
-      add :public, :boolean, default: true, null: false
+      add :is_public, :boolean, default: true, null: false
       add :can_pick_employee, :boolean, default: true, null: false
 
       add :company_id, references(:companies), null: false

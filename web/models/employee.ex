@@ -43,7 +43,7 @@ defmodule Appointments.Employee do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> validate_inclusion(:role, ["restricted", "self", "full"])
+    |> validate_inclusion(:role, ~w(restricted self full))
     |> validate_length(:first_name, min: 1, max: 100)
     |> validate_length(:last_name, min: 1, max: 100)
     |> validate_format(:email, ~r/@/)

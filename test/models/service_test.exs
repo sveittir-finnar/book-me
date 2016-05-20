@@ -3,16 +3,22 @@ defmodule Appointments.ServiceTest do
 
   alias Appointments.Service
 
-  @valid_attrs %{can_pick_employee: true, cleanup_duration: 42, description: "some content", duration: 42, id: "7488a646-e31f-11e4-aace-600308960662", name: "some content", price: "some content", pricing_type: "some content", public: true}
-  @invalid_attrs %{}
+  @valid_service %{
+    id: "7488a646-e31f-11e4-aace-600308960662",
+    name: "Bike bag rental",
+    description: "EVOC bag",
+    duration: 5,
+    pricing: "5000 kr/klst"
+  }
+  @invalid_service %{}
 
   test "changeset with valid attributes" do
-    changeset = Service.changeset(%Service{}, @valid_attrs)
+    changeset = Service.changeset(%Service{}, @valid_service)
     assert changeset.valid?
   end
 
   test "changeset with invalid attributes" do
-    changeset = Service.changeset(%Service{}, @invalid_attrs)
+    changeset = Service.changeset(%Service{}, @invalid_service)
     refute changeset.valid?
   end
 end

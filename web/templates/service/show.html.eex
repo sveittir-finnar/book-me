@@ -28,18 +28,13 @@
   </li>
 
   <li>
-    <strong>Pricing type:</strong>
-    <%= @service.pricing_type %>
-  </li>
-
-  <li>
-    <strong>Price:</strong>
-    <%= @service.price %>
+    <strong>Pricing:</strong>
+    <%= @service.pricing %>
   </li>
 
   <li>
     <strong>Public:</strong>
-    <%= @service.public %>
+    <%= @service.is_public %>
   </li>
 
   <li>

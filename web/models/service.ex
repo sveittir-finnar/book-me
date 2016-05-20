@@ -4,7 +4,6 @@ defmodule Appointments.Service do
   @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "services" do
-
     field :name, :string
     field :description, :string
 
@@ -13,11 +12,10 @@ defmodule Appointments.Service do
     field :cleanup_duration, :integer, default: 0
 
     # Pricing
-    field :pricing_type, :string
-    field :price, :string
+    field :pricing, :string
 
     # Visibility
-    field :public, :boolean, default: true
+    field :is_public, :boolean, default: true
     field :can_pick_employee, :boolean, default: true
 
     # Associations
@@ -26,8 +24,8 @@ defmodule Appointments.Service do
     timestamps
   end
 
-  @required_fields ~w(id name duration cleanup_duration pricing_type price public can_pick_employee)
-  @optional_fields ~w(description)
+  @required_fields ~w(id name duration)
+  @optional_fields ~w(cleanup_duration description pricing is_public can_pick_employee)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

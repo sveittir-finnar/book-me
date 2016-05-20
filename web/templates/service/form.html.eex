@@ -36,21 +36,15 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :pricing_type, class: "control-label" %>
-    <%= text_input f, :pricing_type, class: "form-control" %>
-    <%= error_tag f, :pricing_type %>
+    <%= label f, :pricing, class: "control-label" %>
+    <%= text_input f, :pricing, class: "form-control" %>
+    <%= error_tag f, :pricing %>
   </div>
 
   <div class="form-group">
-    <%= label f, :price, class: "control-label" %>
-    <%= text_input f, :price, class: "form-control" %>
-    <%= error_tag f, :price %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :public, class: "control-label" %>
-    <%= checkbox f, :public, class: "form-control" %>
-    <%= error_tag f, :public %>
+    <%= label f, :is_public, class: "control-label" %>
+    <%= checkbox f, :is_public, class: "form-control" %>
+    <%= error_tag f, :is_public %>
   </div>
 
   <div class="form-group">

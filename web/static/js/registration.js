@@ -24,7 +24,7 @@ function handleValidationErrors (changesets) {
   $('#errors').show();
 }
 
-$(document).ready(() => {
+$(() => {
   $('#registration_form').submit(function () {
     event.preventDefault();
     let form = $(this).serializeArray();

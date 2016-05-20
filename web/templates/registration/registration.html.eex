@@ -5,7 +5,7 @@
   <ul></ul>
 </div>
 
-<form id="registration_form" accept-charset="UTF-8" action="<%= registration_path(@conn, :registration_post) %>" class="form-horizontal" method="post">
+<form id="registration_form" accept-charset="UTF-8" action="<%= registration_path(@conn, :create) %>" class="form-horizontal" method="post">
   <div class="form-group">
     <label for="reg_first_name" class="col-sm-2 control-label">Your Name</label>
     <div class="col-sm-5">

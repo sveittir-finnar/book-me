@@ -27,7 +27,7 @@ defmodule Appointments.RegistrationControllerTest do
   end
 
   test "should fail when company data is missing", %{conn: conn} do
-    conn = post(conn, registration_path(conn, :registration_post), %{
+    conn = post(conn, registration_path(conn, :create), %{
       company: %{name: ""}, # too short name
       employee: @valid_employee
     })
@@ -35,7 +35,7 @@ defmodule Appointments.RegistrationControllerTest do
   end
 
   test "should fail when employee data is missing", %{conn: conn} do
-    conn = post(conn, registration_path(conn, :registration_post), %{
+    conn = post(conn, registration_path(conn, :create), %{
       company: @valid_company,
       employee: %{"first_name" => "Aron"}
     })
@@ -49,7 +49,7 @@ defmodule Appointments.RegistrationControllerTest do
   test "should fail when email is already in use", %{conn: conn} do
     company = insert(:company)
     employee = insert(:employee, company_id: company.id)
-    conn = post(conn, registration_path(conn, :registration_post), %{
+    conn = post(conn, registration_path(conn, :create), %{
       company: @valid_company,
       employee: %{@valid_employee | email: employee.email}
     })
@@ -59,7 +59,7 @@ defmodule Appointments.RegistrationControllerTest do
   test "should ignore the case of emails", %{conn: conn} do
     company = insert(:company)
     employee = insert(:employee, company_id: company.id)
-    conn = post(conn, registration_path(conn, :registration_post), %{
+    conn = post(conn, registration_path(conn, :create), %{
       company: @valid_company,
       employee: %{@valid_employee | email: String.upcase(employee.email)}
     })
@@ -67,7 +67,7 @@ defmodule Appointments.RegistrationControllerTest do
   end
 
   test "should not allow too short passwords", %{conn: conn} do
-    conn = post(conn, registration_path(conn, :registration_post), %{
+    conn = post(conn, registration_path(conn, :create), %{
       company: @valid_company,
       employee: Map.merge(@valid_employee, %{
         "password" => "abc", "password_confirmation" => "abc"
@@ -77,7 +77,7 @@ defmodule Appointments.RegistrationControllerTest do
   end
 
   test "should be successful for valid payloads", %{conn: conn} do
-    conn = post(conn, registration_path(conn, :registration_post), %{
+    conn = post(conn, registration_path(conn, :create), %{
       company: @valid_company,
       employee: @valid_employee
     })

@@ -3,11 +3,11 @@ defmodule Appointments.RegistrationController do
 
   alias Appointments.{Company, Employee, JWT}
 
-  def registration(conn, _params) do
+  def new(conn, _params) do
     render(conn, "registration.html")
   end
 
-  def registration_post(conn, %{"employee" => employee_params, "company" => company_params}) do
+  def create(conn, %{"employee" => employee_params, "company" => company_params}) do
     # HACK: Set this temporarily so the company_id validation will not trigger
     employee_params = Map.merge(employee_params, %{"role" => "full", "company_id" => -1})
     company_changeset = Company.changeset(%Company{}, company_params)

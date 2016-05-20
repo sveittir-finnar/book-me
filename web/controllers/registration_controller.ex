@@ -1,10 +1,10 @@
 defmodule Appointments.RegistrationController do
   use Appointments.Web, :controller
 
-  alias Appointments.{Company, Employee}
+  alias Appointments.{Company, Employee, JWT}
 
   def registration(conn, _params) do
-    render conn, "registration.html"
+    render(conn, "registration.html")
   end
 
   def registration_post(conn, %{"employee" => employee_params, "company" => company_params}) do
@@ -28,8 +28,12 @@ defmodule Appointments.RegistrationController do
             Repo.rollback(%{employee: employee_changeset, company: changeset})
         end
       end do
-        {:ok, _} ->
-          conn |> put_status(:created) |> render(Appointments.ShowView, "show.json", res: "good")
+        {:ok, employee} ->
+          {:ok, token} = JWT.create_token(conn, employee, :email, :cookie)
+          conn
+          |> put_status(:created)
+          |> put_resp_cookie("access_token", token, [http_only: true])
+          |> render(Appointments.ShowView, "show.json", res: "good")
         {:error, changesets} -> registration_err(conn, changesets)
       end
     else

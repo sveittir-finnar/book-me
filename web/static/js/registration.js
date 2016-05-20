@@ -37,7 +37,7 @@ $(document).ready(() => {
       data: body
     })
     .done((data) => {
-      console.log('data:', data);
+      window.location.href = '/';
     })
     .fail((err, status) => {
       // Validation error?

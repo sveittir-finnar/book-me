@@ -14,7 +14,7 @@
 <%= for employee <- @employees do %>
     <tr>
       <td><img src="<%= employee.avatar_url %>" style="height: 90px; width: auto; border-radius: 50%;" /></td>
-      <td><%= employee.name %></td>
+      <td><%= Employee.full_name(employee) %></td>
       <td><%= employee.phone %></td>
       <td><%= employee.email %></td>
       <td><%= employee.bio %></td>

@@ -68,4 +68,11 @@ defmodule Appointments.Employee do
     |> DB.add_reset_token(key)
   end
 
+  @doc """
+  Returns the full name of the employee
+  """
+  def full_name(employee) do
+    "#{employee.first_name} #{employee.last_name}"
+  end
+
 end

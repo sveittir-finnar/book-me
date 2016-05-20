@@ -16,9 +16,10 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 ## TODOs
 
+* ~~Registration of companies (and thus their first employee).~~
 * ~~Companies should only be able to update their own employees.~~
 * ~~Add a test that verifies that an unconfirmed user cannot log in.~~
 * ~~Put [ex_machina](https://github.com/thoughtbot/ex_machina) into use.~~
-* Error handling (404, 500) etc. show proper pages
-* Registration of companies (and thus their first employee).
+* Error handling (404, 500) etc. show proper pages.
 * Actually send email confirmation when adding employees.
+* Services.

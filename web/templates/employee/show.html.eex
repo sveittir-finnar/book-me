@@ -3,8 +3,13 @@
 <ul>
 
   <li>
-    <strong>Name:</strong>
-    <%= @employee.name %>
+    <strong>First Name:</strong>
+    <%= @employee.first_name %>
+  </li>
+
+  <li>
+    <strong>Last Name:</strong>
+    <%= @employee.last_name %>
   </li>
 
   <li>

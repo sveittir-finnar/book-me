@@ -2,8 +2,8 @@ defmodule Appointments.EmployeeControllerTest do
   use Appointments.ConnCase
   alias Appointments.{Repo, Employee}
 
-  @valid_attrs %{ email: "david@bowie.com", name: "David Bowie", role: "restricted" }
-  @invalid_attrs %{ }
+  @valid_attrs %{email: "david@bowie.com", first_name: "David", last_name: "Bowie", role: "restricted"}
+  @invalid_attrs %{}
 
   import OpenmaizeJWT.Create
 
@@ -12,8 +12,12 @@ defmodule Appointments.EmployeeControllerTest do
     employee = insert(:employee, company_id: company.id)
 
     {:ok, user_token} = %{
-      id: employee.id, email: "paolo@gmail.com", role: "full",
-      name: "p", company_id: company.id, company_name: company.name
+      id: employee.id,
+      email: "paolo@gmail.com",
+      role: "full",
+      first_name: "p",
+      company_id: company.id,
+      company_name: company.name
     }
     |> generate_token({ 0, 86400 })
 
@@ -69,7 +73,11 @@ defmodule Appointments.EmployeeControllerTest do
   test "updates chosen resource and redirects when data is valid",
     %{conn: conn, company: company} do
     employee = Repo.insert! %Employee{
-      email: "ari@gmail.com", name: "ari", role: "full", company_id: company.id
+      email: "ari@gmail.com",
+      first_name: "ari",
+      last_name: "eldjarn",
+      role: "full",
+      company_id: company.id
     }
     conn = put conn, employee_path(conn, :update, employee), employee: @valid_attrs
     assert redirected_to(conn) == employee_path(conn, :show, employee)
@@ -85,7 +93,11 @@ defmodule Appointments.EmployeeControllerTest do
 
   test "deletes chosen resource", %{conn: conn, company: company} do
     employee = Repo.insert! %Employee{
-      email: "ari@gmail.com", name: "ari", role: "full", company_id: company.id
+      email: "ari@gmail.com",
+      first_name: "ari",
+      last_name: "eldjarn",
+      role: "full",
+      company_id: company.id
     }
     conn = delete conn, employee_path(conn, :delete, employee)
     assert redirected_to(conn) == employee_path(conn, :index)

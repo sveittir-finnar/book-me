@@ -15,12 +15,12 @@ defmodule Appointments.Router do
   end
 
   scope "/", Appointments do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
     get "/", PageController, :index
 
     # authentication
-    get "/", PageController, :index
+    get "/registration", RegistrationController, :new
     get "/confirm", PageController, :confirm
     get "/reset", PageController, :askreset
     post "/reset", PageController, :askreset_password
@@ -30,12 +30,14 @@ defmodule Appointments.Router do
     post "/login", PageController, :login_user, as: :login
     get "/logout", PageController, :logout, as: :logout
 
-    resources "/companies", CompanyController
     resources "/employees", EmployeeController
+    resources "/companies", CompanyController
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Appointments do
-  #   pipe_through :api
-  # end
+  scope "/", Appointments do
+    pipe_through :api
+
+    post "/registration", RegistrationController, :create
+  end
+
 end

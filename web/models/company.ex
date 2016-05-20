@@ -24,5 +24,6 @@ defmodule Appointments.Company do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_length(:name, min: 1, max: 100)
   end
 end

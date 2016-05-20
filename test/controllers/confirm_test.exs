@@ -17,13 +17,15 @@ defmodule Appointments.ConfirmTest do
     employees = [
       %{id: 1,
         email: "gladys@mail.com",
-        name: "gladys",
+        first_name: "Gladys",
+        last_name: "Simmons",
         role: "full",
         password: "^hEsdg*F899",
         company_id: company.id},
       %{id: 3,
         email: "matt@damon.com",
-        name: "matt",
+        first_name: "Matt",
+        last_name: "Damon",
         role: "full",
         password: "banani",
         company_id: company.id}

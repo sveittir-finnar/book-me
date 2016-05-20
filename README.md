@@ -23,3 +23,13 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 * Error handling (404, 500) etc. show proper pages.
 * Actually send email confirmation when adding employees.
 * Services.
+* The public page for a company.
+* Appointments:
+  * Business-facing appointment calendar.
+  * Guarantee policy:
+    1. Automatically accepted (default).
+    2. Business must accept manually.
+  * Rescheduling policy:
+    * Can the customer reschedule or not?
+  * Scheduling policy:
+    * Every hour, every half hour, every quarter hour, every service duration.

@@ -39,9 +39,6 @@ defmodule Appointments.Employee do
 
   @doc """
   Creates a changeset based on the `model` and `params`.
-
-  If no params are provided, an invalid changeset is returned
-  with no validation performed.
   """
   def changeset(model, params \\ :empty) do
     model
@@ -54,6 +51,9 @@ defmodule Appointments.Employee do
     |> unique_constraint(:email)
   end
 
+  @doc """
+  Creates a changeset for users that should be able to login.
+  """
   def auth_changeset(model, params, key) do
     model
     |> changeset(params)

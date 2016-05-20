@@ -7,25 +7,29 @@ defmodule Appointments.RegistrationController do
     render(conn, "registration.html")
   end
 
-  def create(conn, %{"employee" => employee_params, "company" => company_params}) do
+  def create(conn, %{"employee" => empl_params, "company" => comp_params}) do
     # HACK: Set this temporarily so the company_id validation will not trigger
-    employee_params = Map.merge(employee_params, %{"role" => "full", "company_id" => -1})
-    company_changeset = Company.changeset(%Company{}, company_params)
-    employee_changeset = Employee.auth_changeset(%Employee{}, employee_params, "banani")
+    empl_params = Map.merge(empl_params, %{"role" => "full", "company_id" => -1})
+    comp_changeset = Company.changeset(%Company{}, comp_params)
 
-    if company_changeset.valid? && employee_changeset.valid? do
+    key = :crypto.strong_rand_bytes(24) |> Base.url_encode64
+    empl_changeset = Employee.auth_changeset(%Employee{}, empl_params, key)
+
+    if comp_changeset.valid? && empl_changeset.valid? do
       # TODO(krummi): Use Ecto.Multi when we start using Ecto 2.0
       #               See: https://github.com/elixir-lang/ecto/issues/1114
       case Repo.transaction fn ->
-        case Repo.insert(company_changeset) do
+        case Repo.insert(comp_changeset) do
           {:ok, company} ->
-            employee_changeset = Ecto.Changeset.put_change(employee_changeset, :company_id, company.id)
-            case Repo.insert(employee_changeset) do
+            empl_changeset = Ecto.Changeset.put_change(
+              empl_changeset, :company_id, company.id)
+            case Repo.insert(empl_changeset) do
               {:ok, employee} -> employee
-              {:error, changeset} -> Repo.rollback(%{employee: changeset, company: company_changeset})
+              {:error, changeset} -> Repo.rollback(
+                %{employee: changeset, company: comp_changeset})
             end
           {:error, changeset} ->
-            Repo.rollback(%{employee: employee_changeset, company: changeset})
+            Repo.rollback(%{employee: empl_changeset, company: changeset})
         end
       end do
         {:ok, employee} ->
@@ -37,7 +41,7 @@ defmodule Appointments.RegistrationController do
         {:error, changesets} -> registration_err(conn, changesets)
       end
     else
-      registration_err(conn, %{employee: employee_changeset, company: company_changeset})
+      registration_err(conn, %{employee: empl_changeset, company: comp_changeset})
     end
   end
 

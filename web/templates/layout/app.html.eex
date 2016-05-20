@@ -34,7 +34,7 @@
             <%= if @current_user do %>
               <li>
                 <a href="/logout">
-                  Logout <%= @current_user.name %> (<%= @current_user.company_name %>)
+                  Logout <%= @current_user.first_name %> (<%= @current_user.company_name %>)
                 </a>
               </li>
             <%= else %>

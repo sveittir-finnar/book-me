@@ -103,10 +103,9 @@ key = "a"
 
 %Service{}
 |> Service.changeset(%{
-  name: "Haircut: Mohawk cut",
-  description: "Mohawk haircuts are the shit this summer!",
-  duration: 45,
-  cleanup_duration: 15,
+  name: "Dentist appointment",
+  description: "A classic mouth wash!",
+  duration: 60,
   company_id: company2.id
 })
 |> Repo.insert!

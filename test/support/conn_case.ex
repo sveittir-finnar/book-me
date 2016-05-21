@@ -27,6 +27,18 @@ defmodule Appointments.ConnCase do
 
       import Appointments.Router.Helpers
       import Appointments.Factory
+      import OpenmaizeJWT.Create
+
+      def create_token(company, employee) do
+        {:ok, user_token} = %{
+          id: employee.id,
+          email: employee.email,
+          role: employee.role,
+          first_name: employee.first_name,
+          company_id: company.id,
+          company_name: company.name
+        } |> generate_token({0, 86400})
+      end
 
       # The default endpoint for testing
       @endpoint Appointments.Endpoint

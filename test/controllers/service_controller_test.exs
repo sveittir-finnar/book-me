@@ -2,26 +2,18 @@ defmodule Appointments.ServiceControllerTest do
   use Appointments.ConnCase
 
   alias Appointments.Service
-  import OpenmaizeJWT.Create
 
   @invalid_attrs %{name: "testing"}
 
   setup do
     company = insert(:company)
+    employee = insert(:employee, company_id: company.id)
     valid_attrs = %{name: "Haircut", duration: 45, company_id: company.id}
 
-    {:ok, token} = %{
-      id: 1,
-      email: "paolo@gmail.com",
-      role: "full",
-      first_name: "p",
-      company_id: company.id,
-      company_name: company.name
-    } |> generate_token({0, 86400})
-
+    {:ok, token} = create_token(company, employee)
     conn = conn() |> put_req_cookie("access_token", token)
 
-    {:ok, conn: conn, company: company, valid_attrs: valid_attrs}
+    {:ok, conn: conn, valid_attrs: valid_attrs}
   end
 
   test "lists all entries on index", %{conn: conn} do

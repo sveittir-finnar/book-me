@@ -21,7 +21,8 @@ defmodule Appointments.ServiceController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"service" => service_params}) do
+  def create(conn, %{"service" => service_params}, user) do
+    service_params = Map.put(service_params, "company_id", user.company_id)
     changeset = Service.changeset(%Service{}, service_params)
 
     case Repo.insert(changeset) do

@@ -6,7 +6,6 @@
       <th>Name</th>
       <th>Description</th>
       <th>Duration</th>
-      <th>Cleanup duration</th>
       <th>Pricing</th>
       <th></th>
     </tr>
@@ -16,9 +15,12 @@
     <tr>
       <td><%= service.name %></td>
       <td><%= service.description %></td>
-      <td><%= service.duration %></td>
-      <td><%= service.cleanup_duration %></td>
-      <td><%= service.pricing %></td>
+      <td>
+        <%= Service.total_duration(service) %>
+      </td>
+      <td>
+        <%= if service.pricing do service.pricing else "<none>" end %>
+      </td>
 
       <td class="text-right">
         <%= link "Show", to: service_path(@conn, :show, service), class: "btn btn-default btn-xs" %>
@@ -30,4 +32,4 @@
   </tbody>
 </table>
 
-<%= link "New service", to: service_path(@conn, :new) %>
+<%= link "Add service", to: service_path(@conn, :new), class: "btn btn-default" %>

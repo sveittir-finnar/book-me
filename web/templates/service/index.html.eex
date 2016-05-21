@@ -1,0 +1,35 @@
+<h2>Listing services</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Duration</th>
+      <th>Pricing</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for service <- @services do %>
+    <tr>
+      <td><%= service.name %></td>
+      <td><%= service.description %></td>
+      <td>
+        <%= Service.total_duration(service) %>
+      </td>
+      <td>
+        <%= if service.pricing do service.pricing else "<none>" end %>
+      </td>
+
+      <td class="text-right">
+        <%= link "Show", to: service_path(@conn, :show, service), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: service_path(@conn, :edit, service), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: service_path(@conn, :delete, service), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "Add service", to: service_path(@conn, :new), class: "btn btn-default" %>

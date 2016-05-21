@@ -32,6 +32,7 @@ defmodule Appointments.Router do
 
     resources "/employees", EmployeeController
     resources "/companies", CompanyController
+    resources "/services", ServiceController
   end
 
   scope "/", Appointments do

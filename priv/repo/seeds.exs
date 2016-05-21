@@ -10,12 +10,10 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias Appointments.Company
-alias Appointments.Employee
-alias Appointments.Repo
+alias Appointments.{Repo, Company, Employee, Service}
 import Openmaize.DB
 
-# Create some companies
+# Create companies
 
 company1 = Repo.insert! %Company{
   name: "Hársnyrtifélagið Gæðahár",
@@ -31,11 +29,11 @@ company2 = Repo.insert! %Company{
 
 IO.inspect(company1)
 
-# Create some users
+# Create users
 
-key = "pu9-VNdgE8V9qZo19rlcg3KUNjpxuixg"
+key = "a"
 
-employee1 = %Employee{}
+%Employee{}
 |> Employee.auth_changeset(%{
   email: "test@test.com",
   first_name: "Ari Emil",
@@ -50,7 +48,7 @@ employee1 = %Employee{}
 |> Repo.insert!
 |> user_confirmed
 
-employee2 = %Employee{}
+%Employee{}
 |> Employee.auth_changeset(%{
   email: "siggi@test.com",
   first_name: "Sigurður",
@@ -65,7 +63,7 @@ employee2 = %Employee{}
 |> Repo.insert!
 |> user_confirmed
 
-employee3 = %Employee{}
+%Employee{}
 |> Employee.auth_changeset(%{
   email: "gisli@test.com",
   first_name: "Gísli Marteinn",
@@ -79,3 +77,35 @@ employee3 = %Employee{}
 }, key)
 |> Repo.insert!
 |> user_confirmed
+
+# Create services
+
+%Service{}
+|> Service.changeset(%{
+  name: "Haircut: Crew cut",
+  description: "Look ridiculously cool; get a crew cut!",
+  duration: 30,
+  cleanup_duration: 0,
+  pricing: "4500 kr.",
+  company_id: company1.id
+})
+|> Repo.insert!
+
+%Service{}
+|> Service.changeset(%{
+  name: "Haircut: Mohawk cut",
+  description: "Mohawk haircuts are the shit this summer!",
+  duration: 45,
+  cleanup_duration: 15,
+  company_id: company1.id
+})
+|> Repo.insert!
+
+%Service{}
+|> Service.changeset(%{
+  name: "Dentist appointment",
+  description: "A classic mouth wash!",
+  duration: 60,
+  company_id: company2.id
+})
+|> Repo.insert!

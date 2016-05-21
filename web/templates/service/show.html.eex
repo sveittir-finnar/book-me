@@ -1,12 +1,6 @@
 <h2>Show service</h2>
 
 <ul>
-
-  <li>
-    <strong>Id:</strong>
-    <%= @service.id %>
-  </li>
-
   <li>
     <strong>Name:</strong>
     <%= @service.name %>

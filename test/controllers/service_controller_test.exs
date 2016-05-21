@@ -3,14 +3,11 @@ defmodule Appointments.ServiceControllerTest do
 
   alias Appointments.Service
   @valid_service %{
-    can_pick_employee: true,
-    cleanup_duration: 42,
-    description: "some content",
-    duration: 42,
     id: "7488a646-e31f-11e4-aace-600308960662",
-    name: "some content",
-    pricing: "some content",
-    is_public: true
+    name: "Bike bag rental",
+    description: "EVOC bag",
+    duration: 5,
+    pricing: "5000 kr/klst"
   }
   @invalid_service %{}
 

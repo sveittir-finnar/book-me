@@ -3,29 +3,22 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Id</th>
       <th>Name</th>
       <th>Description</th>
       <th>Duration</th>
       <th>Cleanup duration</th>
       <th>Pricing</th>
-      <th>Public</th>
-      <th>Can pick employee</th>
-
       <th></th>
     </tr>
   </thead>
   <tbody>
 <%= for service <- @services do %>
     <tr>
-      <td><%= service.id %></td>
       <td><%= service.name %></td>
       <td><%= service.description %></td>
       <td><%= service.duration %></td>
       <td><%= service.cleanup_duration %></td>
       <td><%= service.pricing %></td>
-      <td><%= service.is_public %></td>
-      <td><%= service.can_pick_employee %></td>
 
       <td class="text-right">
         <%= link "Show", to: service_path(@conn, :show, service), class: "btn btn-default btn-xs" %>

@@ -20,11 +20,11 @@
       <%= error_tag f, :last_name %>
     </div>
     <div class="form-group">
-      <%= text_input f, :phone, class: "form-control", placeholder: "Phone" %>
+      <%= text_input f, :phone, class: "form-control", placeholder: "Phone (optional)" %>
       <%= error_tag f, :phone %>
     </div>
     <div class="form-group">
-      <%= text_input f, :avatar_url, class: "form-control", placeholder: "Avatar URL" %>
+      <%= text_input f, :avatar_url, class: "form-control", placeholder: "Avatar URL (optional)" %>
       <%= error_tag f, :avatar_url %>
     </div>
   </fieldset>

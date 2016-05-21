@@ -19,7 +19,7 @@ defmodule Appointments.Router do
 
     get "/", PageController, :index
 
-    # authentication
+    # Authentication & registration
     get "/registration", RegistrationController, :new
     get "/confirm", PageController, :confirm
     get "/reset", PageController, :askreset
@@ -30,8 +30,13 @@ defmodule Appointments.Router do
     post "/login", PageController, :login_user, as: :login
     get "/logout", PageController, :logout, as: :logout
 
+    # Settings
+    get "/settings", CompanyController, :edit
+    patch "/settings", CompanyController, :update
+
+    # Resources
     resources "/employees", EmployeeController
-    resources "/companies", CompanyController
+    resources "/companies", CompanyController, only: [:show]
     resources "/services", ServiceController
   end
 

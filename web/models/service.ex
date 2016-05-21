@@ -37,7 +37,8 @@ defmodule Appointments.Service do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_number(:duration, greater_than: 1, less_than: 1440) # 60 * 24
-    |> validate_number(:cleanup_duration, greater_than_or_equal_to: 0, less_than_or_equal_to: 60)
+    |> validate_number(
+      :cleanup_duration, greater_than_or_equal_to: 0, less_than_or_equal_to: 60)
   end
 
   @doc """

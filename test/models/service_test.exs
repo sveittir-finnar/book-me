@@ -4,21 +4,42 @@ defmodule Appointments.ServiceTest do
   alias Appointments.Service
 
   @valid_service %{
-    id: "7488a646-e31f-11e4-aace-600308960662",
     name: "Bike bag rental",
-    description: "EVOC bag",
     duration: 5,
-    pricing: "5000 kr/klst"
+    cleanup_duration: 0,
+    company_id: 1337
   }
-  @invalid_service %{}
+
+  test "services without a company reference should be invalid" do
+    changeset = Service.changeset(%Service{}, %{name: "abc", duration: 13})
+    refute changeset.valid?
+  end
+
+  test "services without a name should be invalid" do
+    changeset = Service.changeset(%Service{}, %{duration: 45, company_id: 1})
+    refute changeset.valid?
+  end
+
+  test "the duration of service should be in the range <0, 1440>" do
+    changeset = Service.changeset(%Service{}, %{@valid_service | duration: 0})
+    refute changeset.valid?
+    changeset = Service.changeset(%Service{}, %{@valid_service | duration: 1440})
+    refute changeset.valid?
+    changeset = Service.changeset(%Service{}, %{@valid_service | duration: 1439})
+    assert changeset.valid?
+  end
+
+  test "cleanup_duration should be in the range [0, 60]" do
+    changeset = Service.changeset(%Service{}, %{@valid_service | cleanup_duration: -1})
+    refute changeset.valid?
+    changeset = Service.changeset(%Service{}, %{@valid_service | cleanup_duration: 61})
+    refute changeset.valid?
+    changeset = Service.changeset(%Service{}, %{@valid_service | cleanup_duration: 60})
+    assert changeset.valid?
+  end
 
   test "changeset with valid attributes" do
     changeset = Service.changeset(%Service{}, @valid_service)
     assert changeset.valid?
-  end
-
-  test "changeset with invalid attributes" do
-    changeset = Service.changeset(%Service{}, @invalid_service)
-    refute changeset.valid?
   end
 end

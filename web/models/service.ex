@@ -24,7 +24,7 @@ defmodule Appointments.Service do
     timestamps
   end
 
-  @required_fields ~w(id name duration)
+  @required_fields ~w(name duration company_id)
   @optional_fields ~w(cleanup_duration description pricing is_public can_pick_employee)
 
   @doc """
@@ -36,5 +36,7 @@ defmodule Appointments.Service do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_number(:duration, greater_than: 1, less_than: 1440) # 60 * 24
+    |> validate_number(:cleanup_duration, greater_than_or_equal_to: 0, less_than_or_equal_to: 60)
   end
 end

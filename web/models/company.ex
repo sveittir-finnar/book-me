@@ -8,6 +8,7 @@ defmodule Appointments.Company do
     field :description, :string
 
     has_many :employees, Appointments.Employee
+    has_many :services, Appointments.Service
 
     timestamps
   end

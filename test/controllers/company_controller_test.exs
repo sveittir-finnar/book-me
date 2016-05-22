@@ -37,7 +37,7 @@ defmodule Appointments.CompanyControllerTest do
 
   test "renders form for editing chosen resource", %{conn: conn} do
     conn = get conn, company_path(conn, :edit)
-    assert html_response(conn, 200) =~ "Edit company"
+    assert html_response(conn, 200) =~ "Basic Information"
   end
 
   test "updates chosen resource and redirects when data is valid",
@@ -50,6 +50,6 @@ defmodule Appointments.CompanyControllerTest do
   test "does not update chosen resource and renders errors when data is invalid",
     %{conn: conn} do
     conn = patch conn, company_path(conn, :update), company: @invalid_attrs
-    assert html_response(conn, 200) =~ "Edit company"
+    assert html_response(conn, 200) =~ "Basic Information"
   end
 end

@@ -22,6 +22,9 @@ defmodule Appointments.Company do
     field :location_country, :string
     field :zip, :string
 
+    # Opening hours
+    field :opening_hours, :map
+
     has_many :employees, Appointments.Employee
     has_many :services, Appointments.Service
 
@@ -29,7 +32,9 @@ defmodule Appointments.Company do
   end
 
   @required_fields ~w(name)
-  @optional_fields ~w(phone email description)
+  @optional_fields ~w(phone email description website_url facebook twitter
+    logo_url timezone location_name location_street location_city
+    location_country zip opening_hours)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

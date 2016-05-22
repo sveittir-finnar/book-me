@@ -1,7 +1,7 @@
 defmodule Appointments.Repo.Migrations.AddFieldsToCompanies do
   use Ecto.Migration
 
-  def change
+  def change do
     alter table(:companies) do
       add :website_url, :string
       add :facebook, :string
@@ -15,6 +15,9 @@ defmodule Appointments.Repo.Migrations.AddFieldsToCompanies do
       add :location_city, :string
       add :location_country, :string
       add :zip, :string
+
+      # Opening hours
+      add :opening_hours, :map
     end
   end
 end

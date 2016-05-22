@@ -45,6 +45,7 @@ defmodule Appointments.Mixfile do
      {:phoenix_html, "~> 2.4"},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
+     {:poison, "~> 1.0"},
      {:openmaize, "~> 0.18"},
      {:openmaize_jwt, "~> 0.9"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},

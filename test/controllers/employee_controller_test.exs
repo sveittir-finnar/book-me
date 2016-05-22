@@ -2,8 +2,6 @@ defmodule Appointments.EmployeeControllerTest do
   use Appointments.ConnCase
 
   alias Appointments.{Repo, Employee}
-  import OpenmaizeJWT.Create
-
 
   @valid_attrs %{email: "david@bowie.com", first_name: "David", last_name: "Bowie", role: "restricted"}
   @invalid_attrs %{}
@@ -12,18 +10,10 @@ defmodule Appointments.EmployeeControllerTest do
     company = insert(:company)
     employee = insert(:employee, company_id: company.id)
 
-    {:ok, user_token} = %{
-      id: employee.id,
-      email: "paolo@gmail.com",
-      role: "full",
-      first_name: "p",
-      company_id: company.id,
-      company_name: company.name
-    } |> generate_token({0, 86400})
+    {:ok, token} = create_token(company, employee)
+    conn = conn() |> put_req_cookie("access_token", token)
 
-    conn = conn() |> put_req_cookie("access_token", user_token)
-
-    {:ok, conn: conn, user_token: user_token, company: company}
+    {:ok, conn: conn, company: company}
   end
 
   test "renders the login form if unauthorized" do

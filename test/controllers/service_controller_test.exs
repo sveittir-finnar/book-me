@@ -2,26 +2,16 @@ defmodule Appointments.ServiceControllerTest do
   use Appointments.ConnCase
 
   alias Appointments.Service
-  import OpenmaizeJWT.Create
-
-  @invalid_attrs %{name: "testing"}
 
   setup do
     company = insert(:company)
-    valid_attrs = %{name: "Haircut", duration: 45, company_id: company.id}
+    employee = insert(:employee, company_id: company.id)
+    service = insert(:service, company_id: company.id)
 
-    {:ok, token} = %{
-      id: 1,
-      email: "paolo@gmail.com",
-      role: "full",
-      first_name: "p",
-      company_id: company.id,
-      company_name: company.name
-    } |> generate_token({0, 86400})
-
+    {:ok, token} = create_token(company, employee)
     conn = conn() |> put_req_cookie("access_token", token)
 
-    {:ok, conn: conn, company: company, valid_attrs: valid_attrs}
+    {:ok, conn: conn, service: service}
   end
 
   test "lists all entries on index", %{conn: conn} do
@@ -35,7 +25,8 @@ defmodule Appointments.ServiceControllerTest do
   end
 
   test "creates resource and redirects when data is valid",
-    %{conn: conn, valid_attrs: valid_attrs} do
+    %{conn: conn, service: service} do
+    valid_attrs = %{name: "Test", duration: 50, company_id: service.company_id}
     conn = post conn, service_path(conn, :create), service: valid_attrs
     assert redirected_to(conn) == service_path(conn, :index)
     assert Repo.get_by(Service, valid_attrs)
@@ -43,12 +34,12 @@ defmodule Appointments.ServiceControllerTest do
 
   test "does not create resource and renders errors when data is invalid",
     %{conn: conn} do
-    conn = post conn, service_path(conn, :create), service: @invalid_attrs
+    invalid_attrs = %{name: "testing"}
+    conn = post conn, service_path(conn, :create), service: invalid_attrs
     assert html_response(conn, 200) =~ "New service"
   end
 
-  test "shows chosen resource", %{conn: conn, valid_attrs: valid_attrs} do
-    service = Repo.insert! Service.changeset(%Service{}, valid_attrs)
+  test "shows chosen resource", %{conn: conn, service: service} do
     conn = get conn, service_path(conn, :show, service)
     assert html_response(conn, 200) =~ "Show service"
   end
@@ -61,31 +52,27 @@ defmodule Appointments.ServiceControllerTest do
   end
 
   test "renders form for editing chosen resource",
-    %{conn: conn, valid_attrs: valid_attrs} do
-    service = Repo.insert! Service.changeset(%Service{}, valid_attrs)
+    %{conn: conn, service: service} do
     conn = get conn, service_path(conn, :edit, service)
     assert html_response(conn, 200) =~ "Edit service"
   end
 
   test "updates chosen resource and redirects when data is valid",
-    %{conn: conn, valid_attrs: valid_attrs} do
-    service = Repo.insert! Service.changeset(%Service{}, valid_attrs)
-    update_attrs = Map.put(valid_attrs, :cleanup_duration, 15)
-    conn = put conn, service_path(conn, :update, service), service: update_attrs
+    %{conn: conn, service: service} do
+    update_attrs = %{cleanup_duration: 59}
+    conn = patch conn, service_path(conn, :update, service), service: update_attrs
     assert redirected_to(conn) == service_path(conn, :show, service)
     assert Repo.get_by(Service, update_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid",
-    %{conn: conn, valid_attrs: valid_attrs} do
-    service = Repo.insert! Service.changeset(%Service{}, valid_attrs)
-    update_attrs = Map.put(valid_attrs, :cleanup_duration, -1)
+    %{conn: conn, service: service} do
+    update_attrs = %{cleanup_duration: -1}
     conn = put conn, service_path(conn, :update, service), service: update_attrs
     assert html_response(conn, 200) =~ "Edit service"
   end
 
-  test "deletes chosen resource", %{conn: conn, valid_attrs: valid_attrs} do
-    service = Repo.insert! Service.changeset(%Service{}, valid_attrs)
+  test "deletes chosen resource", %{conn: conn, service: service} do
     conn = delete conn, service_path(conn, :delete, service)
     assert redirected_to(conn) == service_path(conn, :index)
     refute Repo.get(Service, service.id)

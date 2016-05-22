@@ -1,6 +1,8 @@
 defmodule Appointments.Company do
   use Appointments.Web, :model
 
+  import Appointments.Validators
+
   schema "companies" do
     # Basics
     field :name, :string
@@ -46,5 +48,6 @@ defmodule Appointments.Company do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_length(:name, min: 1, max: 100)
+    |> validate_uri(:website_url)
   end
 end

@@ -34,6 +34,24 @@
             </div>
           </div>
         </div>
+
+        <div class="form-group">
+          <%= text_input f, :website_url, class: "form-control", placeholder: "Business website (optional)" %>
+          <%= error_tag f, :website_url %>
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-6">
+              <%= text_input f, :facebook, class: "form-control", placeholder: "Facebook page (optional)" %>
+              <%= error_tag f, :facebook %>
+            </div>
+            <div class="col-sm-6">
+              <%= text_input f, :twitter, class: "form-control", placeholder: "Twitter (optional)" %>
+              <%= error_tag f, :twitter %>
+            </div>
+          </div>
+        </div>
       </fieldset>
 
       <fieldset class="form-group">

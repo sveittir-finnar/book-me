@@ -5,13 +5,10 @@ defmodule Appointments.Validators do
   def validate_uri(changeset, column) do
     error_message = "Please enter a valid URL, e.g. http://www.cnn.com."
     value = get_field(changeset, column)
-    case value do
-      nil -> changeset
-      _ ->
-        case is_valid?(value) do
-          false -> add_error(changeset, column, error_message)
-          true -> changeset
-        end
+    if value != nil && !is_valid?(value) do
+      add_error(changeset, column, error_message)
+    else
+      changeset
     end
   end
 

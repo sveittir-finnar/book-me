@@ -2,10 +2,25 @@ defmodule Appointments.Company do
   use Appointments.Web, :model
 
   schema "companies" do
+    # Basics
     field :name, :string
     field :phone, :string
     field :email, :string
     field :description, :string
+
+    # Online presence
+    field :website_url, :string
+    field :facebook, :string
+    field :twitter, :string
+    field :logo_url, :string
+    field :timezone, :string
+
+    # Location
+    field :location_name, :string
+    field :location_street, :string
+    field :location_city, :string
+    field :location_country, :string
+    field :zip, :string
 
     has_many :employees, Appointments.Employee
     has_many :services, Appointments.Service

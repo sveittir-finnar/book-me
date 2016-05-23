@@ -52,4 +52,13 @@ defmodule Appointments.CompanyControllerTest do
     conn = patch conn, company_path(conn, :update), company: @invalid_attrs
     assert html_response(conn, 200) =~ "Basic Information"
   end
+
+  test "updates the opening_hours when it is supplied a JSON for it",
+    %{conn: conn, company: company} do
+    conn = patch conn, company_path(conn, :update), company: %{
+      opening_hours: "{ \"tuesday\": [\"9-17\"] }" }
+    assert redirected_to(conn) == company_path(conn, :show, company)
+    %Company{opening_hours: hours} = Repo.get_by(Company, id: company.id)
+    assert hours == %{ "tuesday" => ["9-17"] }
+  end
 end

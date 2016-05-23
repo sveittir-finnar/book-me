@@ -18,6 +18,37 @@
   </li>
 
   <li>
+    <strong>Website:</strong>
+    <a href="<%= @company.website_url %>"><%= @company.website_url %></a>
+  </li>
+
+  <li>
+    <strong>Facebook:</strong>
+    <a href="http://www.facebook.com/<%= @company.facebook %>"><%= @company.facebook %></a>
+  </li>
+
+  <li>
+    <strong>Twitter:</strong>
+    <a href="http://www.twitter.com/<%= @company.twitter %>"><%= @company.twitter %></a>
+  </li>
+
+  <li>
+    <strong>Opening hours</strong>
+    <ol>
+      <%= for {day, arr} <- @company.opening_hours do %>
+        <li><%= String.capitalize(day) %>: <%= arr %></li>
+      <% end %>
+    </ol>
+  </li>
+  <li>
+    <strong>Location</strong>
+    <%= @company.location_name %>
+    <%= @company.location_street %>
+    <%= @company.location_city %>
+    <%= @company.zip %>
+    <%= @company.location_country %>
+  </li>
+  <li>
     <strong>Description:</strong>
     <%= @company.description %>
   </li>

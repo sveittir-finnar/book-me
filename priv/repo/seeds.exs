@@ -18,7 +18,23 @@ import Openmaize.DB
 company1 = Repo.insert! %Company{
   name: "Hársnyrtifélagið Gæðahár",
   phone: "+354 823 9745",
-  email: "harsnyrtifelagid@gmail.com"
+  email: "harsnyrtifelagid@gmail.com",
+  description: "Hársnyrtifélagið is one of Reykjavíks hidden gems when it comes to hair.",
+  website_url: "https://news.ycombinator.com/",
+  facebook: "harsnyrtifelagid",
+  twitter: "@harsnyrtifelagid",
+  location_name: "Kramhúsið",
+  location_street: "Skólavörðustígur 19",
+  location_city: "Reykjavík",
+  zip: "101",
+  location_country: "IS",
+  opening_hours: %{
+    "monday" => ["9-17"],
+    "tuesday" => ["9-17"],
+    "wednesday" => ["9-17"],
+    "thursday" => ["9-17"],
+    "friday" => ["9-17"]
+  }
 }
 
 company2 = Repo.insert! %Company{

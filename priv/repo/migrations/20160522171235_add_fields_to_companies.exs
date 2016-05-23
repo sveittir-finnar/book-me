@@ -14,7 +14,7 @@ defmodule Appointments.Repo.Migrations.AddFieldsToCompanies do
       add :location_street, :string
       add :location_city, :string
       add :location_country, :string
-      add :zip, :string
+      add :location_zip, :string
 
       # Opening hours
       add :opening_hours, :map

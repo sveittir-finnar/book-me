@@ -45,7 +45,7 @@
     <%= @company.location_name %>
     <%= @company.location_street %>
     <%= @company.location_city %>
-    <%= @company.zip %>
+    <%= @company.location_zip %>
     <%= @company.location_country %>
   </li>
   <li>

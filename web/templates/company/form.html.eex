@@ -68,8 +68,8 @@
           <%= error_tag f, :location_city %>
         </div>
         <div class="col-sm-2">
-          <%= text_input f, :zip, class: "form-control", placeholder: "Zip code" %>
-          <%= error_tag f, :zip %>
+          <%= text_input f, :location_zip, class: "form-control", placeholder: "Zip code" %>
+          <%= error_tag f, :location_zip %>
         </div>
         <div class="col-sm-6">
           <%= select f, :location_country, @countries, class: "form-control", prompt: "Choose your country" %>

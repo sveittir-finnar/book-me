@@ -26,7 +26,7 @@ company1 = Repo.insert! %Company{
   location_name: "Kramhúsið",
   location_street: "Skólavörðustígur 19",
   location_city: "Reykjavík",
-  zip: "101",
+  location_zip: "101",
   location_country: "IS",
   opening_hours: %{
     "monday" => ["9-17"],

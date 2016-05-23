@@ -1,105 +1,101 @@
-<div class="row">
-  <div class="col-md-3">
-    <ul class="nav nav-sidebar navbar-default">
-      <li class="active"><a href="#">Basic Information</a></li>
-      <li><a href="#">Opening Hours</a></li>
-      <li><a href="#">Analytics</a></li>
-    </ul>
-  </div>
-  <div class="col-md-9">
-    <%= form_for @changeset, @action, fn f -> %>
-      <input name="_method" type="hidden" value="patch" />
-      <%= if @changeset.action do %>
-        <div class="alert alert-danger">
-          <p>Oops, something went wrong! Please check the errors below.</p>
-        </div>
-      <% end %>
+<%= form_for @changeset, @action, fn f -> %>
+  <input name="_method" type="hidden" value="patch" />
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
 
-      <h4>Basic Information</h4>
-      <fieldset class="form-group">
-        <div class="form-group">
-          <%= text_input f, :name, class: "form-control", placeholder: "Business Name" %>
-          <%= error_tag f, :name %>
-        </div>
+  <h4>Basic Information</h4>
+  <fieldset class="form-group">
+    <div class="form-group">
+      <%= text_input f, :name, class: "form-control", placeholder: "Business Name" %>
+      <%= error_tag f, :name %>
+    </div>
 
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-6">
-              <%= text_input f, :phone, class: "form-control", placeholder: "Phone (optional)" %>
-              <%= error_tag f, :phone %>
-            </div>
-            <div class="col-sm-6">
-              <%= text_input f, :email, class: "form-control", placeholder: "Email (optional)" %>
-              <%= error_tag f, :phone %>
-            </div>
-          </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <%= text_input f, :phone, class: "form-control", placeholder: "Phone (optional)" %>
+          <%= error_tag f, :phone %>
         </div>
+        <div class="col-sm-6">
+          <%= text_input f, :email, class: "form-control", placeholder: "Email (optional)" %>
+          <%= error_tag f, :phone %>
+        </div>
+      </div>
+    </div>
 
-        <div class="form-group">
-          <%= text_input f, :website_url, class: "form-control", placeholder: "Business website (optional)" %>
+    <div class="form-group">
+      <%= text_input f, :website_url, class: "form-control", placeholder: "Business website (optional)" %>
+      <%= error_tag f, :website_url %>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <%= text_input f, :facebook, class: "form-control", placeholder: "Facebook page (optional)" %>
+          <%= error_tag f, :facebook %>
+        </div>
+        <div class="col-sm-6">
+          <%= text_input f, :twitter, class: "form-control", placeholder: "Twitter (optional)" %>
+          <%= error_tag f, :twitter %>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <h4>Business Location</h4>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <%= text_input f, :location_name, class: "form-control", placeholder: "Location name (optional)" %>
           <%= error_tag f, :website_url %>
         </div>
-
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-6">
-              <%= text_input f, :facebook, class: "form-control", placeholder: "Facebook page (optional)" %>
-              <%= error_tag f, :facebook %>
-            </div>
-            <div class="col-sm-6">
-              <%= text_input f, :twitter, class: "form-control", placeholder: "Twitter (optional)" %>
-              <%= error_tag f, :twitter %>
-            </div>
-          </div>
+        <div class="col-sm-6">
+          <%= text_input f, :location_street, class: "form-control", placeholder: "Location street (optional)" %>
+          <%= error_tag f, :location_street %>
         </div>
-      </fieldset>
-
-      <fieldset class="form-group">
-        <h4>Business Location</h4>
-
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-6">
-              <%= text_input f, :location_name, class: "form-control", placeholder: "Location name (optional)" %>
-              <%= error_tag f, :website_url %>
-            </div>
-            <div class="col-sm-6">
-              <%= text_input f, :location_street, class: "form-control", placeholder: "Location street (optional)" %>
-              <%= error_tag f, :location_street %>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="row">
-            <div class="col-sm-4">
-              <%= text_input f, :location_city, class: "form-control", placeholder: "Location city (optional)" %>
-              <%= error_tag f, :location_city %>
-            </div>
-            <div class="col-sm-2">
-              <%= text_input f, :zip, class: "form-control", placeholder: "Zip code" %>
-              <%= error_tag f, :zip %>
-            </div>
-            <div class="col-sm-6">
-              <%= select f, :location_country, @countries, class: "form-control", prompt: "Choose your country" %>
-              <%= error_tag f, :location_country %>
-            </div>
-          </div>
-        </div>
-
-      </fieldset>
-
-      <fieldset class="form-group">
-        <h4>Business Description</h4>
-        <div class="form-group">
-          <%= textarea f, :description, class: "form-control", rows: 4 %>
-          <%= error_tag f, :description %>
-        </div>
-      </fieldset>
-
-      <div class="form-group">
-        <%= submit "Save", class: "btn btn-primary" %>
       </div>
-    <% end %>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-4">
+          <%= text_input f, :location_city, class: "form-control", placeholder: "Location city (optional)" %>
+          <%= error_tag f, :location_city %>
+        </div>
+        <div class="col-sm-2">
+          <%= text_input f, :zip, class: "form-control", placeholder: "Zip code" %>
+          <%= error_tag f, :zip %>
+        </div>
+        <div class="col-sm-6">
+          <%= select f, :location_country, @countries, class: "form-control", prompt: "Choose your country" %>
+          <%= error_tag f, :location_country %>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <h4>Opening Hours</h4>
+    <div class="form-group">
+      <textarea class="form-control" id="company_opening_hours" name="company[opening_hours]"><%= Poison.encode!(@changeset.model.opening_hours) %></textarea>
+      <%= error_tag f, :opening_hours %>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <h4>Business Description</h4>
+    <div class="form-group">
+      <%= textarea f, :description, class: "form-control", rows: 4 %>
+      <%= error_tag f, :description %>
+    </div>
+  </fieldset>
+
+  <div class="form-group">
+    <%= submit "Save", class: "btn btn-primary" %>
   </div>
-</div>
+<% end %>

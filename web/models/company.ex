@@ -13,7 +13,7 @@ defmodule Appointments.Company do
     field :twitter, :string
     field :description, :string
 
-    # TODO: These
+    # TODO(krummi): These
     field :logo_url, :string
     field :timezone, :string
 
@@ -25,7 +25,7 @@ defmodule Appointments.Company do
     field :zip, :string
 
     # Opening hours
-    field :opening_hours, :map
+    field :opening_hours, :map, default: %{}
 
     has_many :employees, Appointments.Employee
     has_many :services, Appointments.Service
@@ -46,7 +46,15 @@ defmodule Appointments.Company do
   """
   def changeset(model, params \\ :empty) do
     allowed_country_codes = Enum.map(Countries.all(), &(to_string(&1.alpha2)))
-    IO.inspect(allowed_country_codes)
+
+    # TODO(krummi): Hack - can we do this differently?
+    if params != :empty && Map.has_key?(params, "opening_hours") do
+      opening_hours = Poison.Parser.parse!(params["opening_hours"])
+      if opening_hours != nil do
+        params = Map.put(params, "opening_hours", opening_hours)
+      end
+    end
+
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_length(:name, min: 1, max: 100)

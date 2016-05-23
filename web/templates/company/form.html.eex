@@ -55,6 +55,41 @@
       </fieldset>
 
       <fieldset class="form-group">
+        <h4>Business Location</h4>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-6">
+              <%= text_input f, :location_name, class: "form-control", placeholder: "Location name (optional)" %>
+              <%= error_tag f, :website_url %>
+            </div>
+            <div class="col-sm-6">
+              <%= text_input f, :location_street, class: "form-control", placeholder: "Location street (optional)" %>
+              <%= error_tag f, :location_street %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-4">
+              <%= text_input f, :location_city, class: "form-control", placeholder: "Location city (optional)" %>
+              <%= error_tag f, :location_city %>
+            </div>
+            <div class="col-sm-2">
+              <%= text_input f, :zip, class: "form-control", placeholder: "Zip code" %>
+              <%= error_tag f, :zip %>
+            </div>
+            <div class="col-sm-6">
+              <%= select f, :location_country, @countries, class: "form-control", prompt: "Choose your country" %>
+              <%= error_tag f, :location_country %>
+            </div>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <fieldset class="form-group">
         <h4>Business Description</h4>
         <div class="form-group">
           <%= textarea f, :description, class: "form-control", rows: 4 %>
@@ -63,7 +98,7 @@
       </fieldset>
 
       <div class="form-group">
-        <%= submit "Submit", class: "btn btn-primary" %>
+        <%= submit "Save", class: "btn btn-primary" %>
       </div>
     <% end %>
   </div>

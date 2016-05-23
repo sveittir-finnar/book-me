@@ -8,12 +8,12 @@ defmodule Appointments.Company do
     field :name, :string
     field :phone, :string
     field :email, :string
-    field :description, :string
-
-    # Online presence
     field :website_url, :string
     field :facebook, :string
     field :twitter, :string
+    field :description, :string
+
+    # TODO: These
     field :logo_url, :string
     field :timezone, :string
 
@@ -45,9 +45,12 @@ defmodule Appointments.Company do
   with no validation performed.
   """
   def changeset(model, params \\ :empty) do
+    allowed_country_codes = Enum.map(Countries.all(), &(to_string(&1.alpha2)))
+    IO.inspect(allowed_country_codes)
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_length(:name, min: 1, max: 100)
     |> validate_uri(:website_url)
+    |> validate_inclusion(:location_country, allowed_country_codes)
   end
 end

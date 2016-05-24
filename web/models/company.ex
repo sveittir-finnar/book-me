@@ -24,7 +24,21 @@ defmodule Appointments.Company do
     field :location_country, :string
     field :location_zip, :string
 
-    # Opening hours
+    """
+    Opening hours - format should be:
+      { "day": [[from, to], [from, to], etc] }
+    where day is one of ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+    and from and to are integers in the range [0, 24].
+
+    Example:
+
+      {
+        "mon": [[9, 12], [13, 17]],
+        "tue": [[9, 17]],
+        "wed": [[9, 12], [13, 19], [20, 24]]
+      }
+
+    """
     field :opening_hours, :map, default: %{}
 
     has_many :employees, Appointments.Employee

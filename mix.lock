@@ -9,6 +9,7 @@
   "db_connection": {:hex, :db_connection, "0.2.5", "3e5e28019e0ec744345568d22a2f5206109bff0e2571f4d7819e0d14cf955f3e", [:mix], [{:sbroker, "~> 0.7", [hex: :sbroker, optional: true]}, {:poolboy, "~> 1.5", [hex: :poolboy, optional: true]}, {:connection, "~> 1.0.2", [hex: :connection, optional: false]}]},
   "decimal": {:hex, :decimal, "1.1.2", "79a769d4657b2d537b51ef3c02d29ab7141d2b486b516c109642d453ee08e00c", [:mix], []},
   "ecto": {:hex, :ecto, "1.1.7", "c37127248756e725eb8254b371764b40c05a90c104b2065d1d4f7e32573fdbec", [:mix], [{:sbroker, "~> 0.7", [hex: :sbroker, optional: true]}, {:postgrex, "~> 0.11.0", [hex: :postgrex, optional: true]}, {:poolboy, "~> 1.4", [hex: :poolboy, optional: false]}, {:poison, "~> 1.0 or ~> 2.0", [hex: :poison, optional: true]}, {:mariaex, "~> 0.5.0 or ~> 0.6.0", [hex: :mariaex, optional: true]}, {:decimal, "~> 1.0", [hex: :decimal, optional: false]}]},
+  "ex_json_schema": {:hex, :ex_json_schema, "0.4.0", "7be5cfc0d7df27a0e9c2db3dbb26969b82d60f7d7bb68c177ea3fb04dc596712", [:mix], []},
   "ex_machina": {:git, "https://github.com/thoughtbot/ex_machina.git", "a24c02618b460094bb81ea90f41e052355383e5a", []},
   "excoveralls": {:hex, :excoveralls, "0.5.4", "1a6e116bcf980da8b7fe33140c1d7e61aa0a4e51951cadbfacc420c12d2b9b8f", [:mix], [{:hackney, ">= 0.12.0", [hex: :hackney, optional: false]}, {:exjsx, "~> 3.0", [hex: :exjsx, optional: false]}]},
   "exjsx": {:hex, :exjsx, "3.2.0", "7136cc739ace295fc74c378f33699e5145bead4fdc1b4799822d0287489136fb", [:mix], [{:jsx, "~> 2.6.2", [hex: :jsx, optional: false]}]},

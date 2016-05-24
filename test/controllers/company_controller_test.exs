@@ -53,12 +53,24 @@ defmodule Appointments.CompanyControllerTest do
     assert html_response(conn, 200) =~ "Basic Information"
   end
 
-  test "updates the opening_hours when it is supplied a JSON for it",
-    %{conn: conn, company: company} do
+  # Company.opening_hours validation
+
+  test "should fail when the opening_hour JSON does not match the schema",
+    %{conn: conn} do
+    invalid_hours = Poison.encode!(%{"mon" => [1, 2]})
     conn = patch conn, company_path(conn, :update), company: %{
-      opening_hours: "{ \"tuesday\": [\"9-17\"] }" }
+      opening_hours: invalid_hours}
+    assert html_response(conn, 200) =~ "Basic Information"
+  end
+
+  test "should succeed when a valid JSON is supplied for the opening_hours",
+    %{conn: conn, company: company} do
+    valid_hours = %{"mon" => [[9, 12], [13, 17]], "sat" => [[9,15]]}
+    valid_hours_str = Poison.encode!(valid_hours)
+    conn = patch conn, company_path(conn, :update), company: %{
+      opening_hours: valid_hours_str }
     assert redirected_to(conn) == company_path(conn, :show, company)
     %Company{opening_hours: hours} = Repo.get_by(Company, id: company.id)
-    assert hours == %{ "tuesday" => ["9-17"] }
+    assert hours == valid_hours
   end
 end

@@ -1,7 +1,7 @@
 defmodule Appointments.Company do
   use Appointments.Web, :model
 
-  import Appointments.Validators
+  import Appointments.Validations
 
   schema "companies" do
     # Basics
@@ -62,5 +62,6 @@ defmodule Appointments.Company do
     |> validate_length(:name, min: 1, max: 100)
     |> validate_uri(:website_url)
     |> validate_inclusion(:location_country, allowed_country_codes)
+    |> validate_opening_hours(:opening_hours)
   end
 end

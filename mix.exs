@@ -48,6 +48,7 @@ defmodule Appointments.Mixfile do
      {:poison, "~> 1.0"},
      {:openmaize, "~> 0.18"},
      {:openmaize_jwt, "~> 0.9"},
+     {:ex_json_schema, "~> 0.4.0"},
 
      # For country data
      {:yamerl, github: "yakaz/yamerl"},

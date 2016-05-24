@@ -17,9 +17,6 @@ defmodule Appointments.CompanyTest do
   end
 
   test "validations: location_country should be a ISO alpha2" do
-    changeset = Company.changeset(%Company{}, %{name: "A"})
-    assert changeset.valid?
-
     changeset = Company.changeset(
       %Company{}, %{name: "A", location_country: "DAWG"})
     refute changeset.valid?

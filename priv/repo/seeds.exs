@@ -29,11 +29,12 @@ company1 = Repo.insert! %Company{
   location_zip: "101",
   location_country: "IS",
   opening_hours: %{
-    "monday" => ["9-17"],
-    "tuesday" => ["9-17"],
-    "wednesday" => ["9-17"],
-    "thursday" => ["9-17"],
-    "friday" => ["9-17"]
+    mon: [[9, 17]],
+    tue: [[9, 17]],
+    wed: [[9, 17]],
+    tue: [[9, 17]],
+    fri: [[9, 12], [13, 17]],
+    sat: [[13, 16]]
   }
 }
 

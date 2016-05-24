@@ -33,10 +33,10 @@ defmodule Appointments.Company do
     timestamps
   end
 
-  @required_fields ~w(name)
+  @required_fields ~w(name opening_hours)
   @optional_fields ~w(phone email description website_url facebook twitter
     location_name location_street location_city location_country location_zip
-    opening_hours logo_url timezone)
+     logo_url timezone)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -47,11 +47,13 @@ defmodule Appointments.Company do
   def changeset(model, params \\ :empty) do
     allowed_country_codes = Enum.map(Countries.all(), &(to_string(&1.alpha2)))
 
-    # TODO(krummi): Hack - can we do this differently?
-    if params != :empty && Map.has_key?(params, "opening_hours") do
-      opening_hours = Poison.Parser.parse!(params["opening_hours"])
-      if opening_hours != nil do
-        params = Map.put(params, "opening_hours", opening_hours)
+    # We might want to revisit this. I can't believe that we need to do this
+    # serialization step manually, but still I cannot figure out a wednesday
+    # to make Ecto do it for me behind the scenes.
+    if params != :empty && Map.get(params, "opening_hours") != nil do
+      case Poison.Parser.parse(params["opening_hours"]) do
+        {:ok, parsed} -> params = Map.put(params, "opening_hours", parsed)
+        {:error, _} -> nil
       end
     end
 

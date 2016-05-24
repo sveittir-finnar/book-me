@@ -35,10 +35,8 @@
   <li>
     <strong>Opening hours</strong>
     <ol>
-      <%= if @company.opening_hours != nil do %>
-        <%= for {day, arr} <- @company.opening_hours do %>
-          <li><%= String.capitalize(day) %>: <%= arr %></li>
-        <% end %>
+      <%= for {day, arr} <- @company.opening_hours do %>
+        <li><%= String.capitalize(day) %>: <%= arr %></li>
       <% end %>
     </ol>
   </li>

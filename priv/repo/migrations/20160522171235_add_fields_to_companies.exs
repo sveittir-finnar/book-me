@@ -17,7 +17,7 @@ defmodule Appointments.Repo.Migrations.AddFieldsToCompanies do
       add :location_zip, :string
 
       # Opening hours
-      add :opening_hours, :map
+      add :opening_hours, :map, null: false, default: fragment("'{}'::jsonb")
     end
   end
 end

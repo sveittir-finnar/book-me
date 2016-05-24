@@ -3,19 +3,31 @@ defmodule Appointments.CompanyTest do
 
   alias Appointments.Company
 
-  @valid_attrs %{description: "some content",
-                 email: "some content",
-                 name: "some content",
-                 phone: "some content"}
-  @invalid_attrs %{}
+  test "validations: website_url should be comply to the URI standard" do
+    changeset = Company.changeset(%Company{}, %{name: "a", website_url: "mbl"})
+    refute changeset.valid?
 
-  test "changeset with valid attributes" do
-    changeset = Company.changeset(%Company{}, @valid_attrs)
+    changeset = Company.changeset(
+      %Company{}, %{name: "a", website_url: "mbl.is"})
+    refute changeset.valid?
+
+    changeset = Company.changeset(
+      %Company{}, %{name: "a", website_url: "http://mbl.is"})
     assert changeset.valid?
   end
 
-  test "changeset with invalid attributes" do
-    changeset = Company.changeset(%Company{}, @invalid_attrs)
+  test "validations: location_country should be a ISO alpha2" do
+    changeset = Company.changeset(
+      %Company{}, %{name: "A", location_country: "DAWG"})
+    refute changeset.valid?
+
+    changeset = Company.changeset(
+      %Company{}, %{name: "A", location_country: "IS"})
+    assert changeset.valid?
+  end
+
+  test "validations: name is required" do
+    changeset = Company.changeset(%Company{}, %{})
     refute changeset.valid?
   end
 end

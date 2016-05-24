@@ -45,8 +45,15 @@ defmodule Appointments.Mixfile do
      {:phoenix_html, "~> 2.4"},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
+     {:poison, "~> 1.0"},
      {:openmaize, "~> 0.18"},
      {:openmaize_jwt, "~> 0.9"},
+     {:ex_json_schema, "~> 0.4.0"},
+
+     # For country data
+     {:yamerl, github: "yakaz/yamerl"},
+     {:countries, github: "SebastianSzturo/countries"},
+
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:excoveralls, "~> 0.5", only: :test},
      {:credo, "~> 0.3", only: [:dev, :test]},

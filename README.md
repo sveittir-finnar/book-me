@@ -17,21 +17,9 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 ## TODOs
 
-* ~~Services.~~
-* ~~Registration of companies (and thus their first employee).~~
-* ~~Companies should only be able to update their own employees.~~
-* ~~Add a test that verifies that an unconfirmed user cannot log in.~~
-* ~~Put [ex_machina](https://github.com/thoughtbot/ex_machina) into use.~~
-* JavaScript in the `service/form.html.eex` template.
-* Error handling (404, 500) etc. show proper pages.
-* Actually send email confirmation when adding employees.
-* The public page for a company.
-* Appointments:
-  * Business-facing appointment calendar.
-  * Guarantee policy:
-    1. Automatically accepted (default).
-    2. Business must accept manually.
-  * Rescheduling policy:
-    * Can the customer reschedule or not?
-  * Scheduling policy:
-    * Every hour, every half hour, every quarter hour, every service duration.
+* Minor tasks (not in Trello):
+  - "Opening hours" widget that renders to JSON.
+  - JavaScript in the `service/form.html.eex` template.
+  - Actually send email confirmation when adding employees.
+  - Error handling (404, 500) etc. show proper pages.
+  - Add a sidebar to the "Settings" page.

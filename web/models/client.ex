@@ -1,12 +1,15 @@
 defmodule Appointments.Client do
   use Appointments.Web, :model
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+
   schema "clients" do
     field :first_name, :string
     field :last_name, :string
     field :phone, :string
     field :email, :string
     field :notes, :string
+
     belongs_to :company, Appointments.Company
 
     timestamps

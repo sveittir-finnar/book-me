@@ -24,7 +24,7 @@ defmodule Appointments.Company do
     field :location_country, :string
     field :location_zip, :string
 
-    """
+    @doc """
     Opening hours - format should be:
       { "day": [[from, to], [from, to], etc] }
     where day is one of ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]

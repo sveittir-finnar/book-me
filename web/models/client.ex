@@ -24,5 +24,9 @@ defmodule Appointments.Client do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_length(:first_name, min: 1, max: 100)
+    |> validate_length(:last_name, min: 1, max: 100)
+    |> validate_format(:email, ~r/@/)
+    |> update_change(:email, &String.downcase/1)
   end
 end

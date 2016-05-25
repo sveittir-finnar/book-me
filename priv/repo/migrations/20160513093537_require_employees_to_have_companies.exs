@@ -3,7 +3,7 @@ defmodule Appointments.Repo.Migrations.RequireEmployeesToHaveCompanies do
 
   def up do
     alter table(:employees) do
-      modify :company_id, :integer, null: false
+      modify :company_id, :binary_id, null: false
       modify :bio, :text
       modify :role, :string, null: false
       modify :name, :string, null: false
@@ -13,7 +13,7 @@ defmodule Appointments.Repo.Migrations.RequireEmployeesToHaveCompanies do
 
   def down do
     alter table(:employees) do
-      modify :company_id, :integer, null: true
+      modify :company_id, :binary_id, null: true
       modify :bio, :text
       modify :role, :string, null: true
       modify :name, :string, null: true

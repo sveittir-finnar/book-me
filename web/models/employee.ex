@@ -3,6 +3,8 @@ defmodule Appointments.Employee do
 
   alias Openmaize.DB
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+
   schema "employees" do
     field :email, :string
     field :first_name, :string
@@ -27,7 +29,7 @@ defmodule Appointments.Employee do
     field :reset_sent_at, Ecto.DateTime
 
     # Associations
-    belongs_to :company, Appointments.Company
+    belongs_to :company, Appointments.Company, type: :binary_id
 
     timestamps
   end

@@ -9,7 +9,8 @@ defmodule Appointments.RegistrationController do
 
   def create(conn, %{"employee" => empl_params, "company" => comp_params}) do
     # HACK: Set this temporarily so the company_id validation will not trigger
-    empl_params = Map.merge(empl_params, %{"role" => "full", "company_id" => -1})
+    empl_params = Map.merge(
+      empl_params, %{"role" => "full", "company_id" => Ecto.UUID.generate()})
     comp_changeset = Company.changeset(%Company{}, comp_params)
 
     key = :crypto.strong_rand_bytes(24) |> Base.url_encode64

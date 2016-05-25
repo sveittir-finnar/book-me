@@ -19,7 +19,7 @@ defmodule Appointments.Service do
     field :can_pick_employee, :boolean, default: true
 
     # Associations
-    belongs_to :company, Appointments.Company
+    belongs_to :company, Appointments.Company, type: :binary_id
 
     timestamps
   end

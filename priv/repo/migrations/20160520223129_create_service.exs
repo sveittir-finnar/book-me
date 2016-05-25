@@ -3,7 +3,7 @@ defmodule Appointments.Repo.Migrations.CreateService do
 
   def change do
     create table(:services, primary_key: false) do
-      add :id, :uuid, primary_key: true, null: false
+      add :id, :binary_id, primary_key: true, null: false
 
       add :name, :string, null: false
       add :description, :text
@@ -16,7 +16,7 @@ defmodule Appointments.Repo.Migrations.CreateService do
       add :is_public, :boolean, default: true, null: false
       add :can_pick_employee, :boolean, default: true, null: false
 
-      add :company_id, references(:companies), null: false
+      add :company_id, references(:companies, type: :binary_id), null: false
 
       timestamps
     end

@@ -31,7 +31,7 @@ defmodule Appointments.CompanyControllerTest do
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
-      get conn, company_path(conn, :show, -1)
+      get conn, company_path(conn, :show, Ecto.UUID.generate())
     end
   end
 

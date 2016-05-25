@@ -6,7 +6,7 @@ defmodule Appointments.EmployeeTest do
     email: "paolo@gmail.com",
     first_name: "Paolo",
     last_name: "Maldini",
-    company_id: 1337
+    company_id: Ecto.UUID.generate()
   }
   @invalid_attrs %{ }
 

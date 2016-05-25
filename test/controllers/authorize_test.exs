@@ -20,8 +20,8 @@ defmodule Appointments.AuthorizeTest do
       first_name: "Matt",
       last_name: "Damon",
       company_name: "Test",
-      company_id: 1}
-    |> generate_token({0, 86400})
+      company_id: Ecto.UUID.generate()
+    } |> generate_token({0, 86400})
 
     conn() |> put_req_cookie("access_token", user_token)
   end

@@ -46,7 +46,7 @@ defmodule Appointments.EmployeeControllerTest do
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
-      get conn, employee_path(conn, :show, -1)
+      get conn, employee_path(conn, :show, Ecto.UUID.generate())
     end
   end
 

@@ -7,7 +7,7 @@ defmodule Appointments.ServiceTest do
     name: "Bike bag rental",
     duration: 5,
     cleanup_duration: 0,
-    company_id: 1337
+    company_id: Ecto.UUID.generate()
   }
 
   test "services without a company reference should be invalid" do

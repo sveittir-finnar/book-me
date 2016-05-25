@@ -3,6 +3,8 @@ defmodule Appointments.Company do
 
   import Appointments.Validations
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+
   schema "companies" do
     # Basics
     field :name, :string

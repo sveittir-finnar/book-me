@@ -45,6 +45,7 @@ defmodule Appointments.Router do
     pipe_through :api
 
     post "/registration", RegistrationController, :create
+    resources "/reservations", ReservationController, except: [:new, :edit]
   end
 
 end

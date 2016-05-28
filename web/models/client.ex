@@ -10,12 +10,12 @@ defmodule Appointments.Client do
     field :email, :string
     field :notes, :string
 
-    belongs_to :company, Appointments.Company
+    belongs_to :company, Appointments.Company, type: :binary_id
 
     timestamps
   end
 
-  @required_fields ~w(first_name last_name)
+  @required_fields ~w(first_name last_name company_id)
   @optional_fields ~w(phone email notes)
 
   @doc """

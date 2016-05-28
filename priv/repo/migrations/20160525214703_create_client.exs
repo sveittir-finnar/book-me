@@ -14,6 +14,5 @@ defmodule Appointments.Repo.Migrations.CreateClient do
       timestamps
     end
     create index(:clients, [:company_id])
-
   end
 end

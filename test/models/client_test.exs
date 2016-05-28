@@ -3,16 +3,19 @@ defmodule Appointments.ClientTest do
 
   alias Appointments.Client
 
-  @valid_attrs %{email: "some content", first_name: "some content", last_name: "some content", notes: "some content", phone: "some content"}
-  @invalid_attrs %{}
-
-  test "changeset with valid attributes" do
-    changeset = Client.changeset(%Client{}, @valid_attrs)
-    assert changeset.valid?
+  test "changeset without a last_name" do
+    changeset = Client.changeset(%Client{}, %{first_name: "Gisl"})
+    refute changeset.valid?
   end
 
-  test "changeset with invalid attributes" do
-    changeset = Client.changeset(%Client{}, @invalid_attrs)
+  test "changeset with a email that lacks a @-symbol" do
+    changeset = Client.changeset(%Client{}, %{email: "gislimarteinn.is"})
     refute changeset.valid?
+  end
+
+  test "changeset with valid attributes" do
+    changeset = Client.changeset(%Client{}, %{
+      first_name: "Gisli", last_name: "Baldursson"})
+    assert changeset.valid?
   end
 end

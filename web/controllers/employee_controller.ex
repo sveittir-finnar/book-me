@@ -38,18 +38,18 @@ defmodule Appointments.EmployeeController do
   end
 
   def show(conn, %{"id" => id}, user) do
-    employee = get_employee(id, user)
+    employee = get_by_id_and_company(Employee, id, user)
     render(conn, "show.html", employee: employee)
   end
 
   def edit(conn, %{"id" => id}, user) do
-    employee = get_employee(id, user)
+    employee = get_by_id_and_company(Employee, id, user)
     changeset = Employee.changeset(employee)
     render(conn, "edit.html", employee: employee, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "employee" => employee_params}, user) do
-    employee = get_employee(id, user)
+    employee = get_by_id_and_company(Employee, id, user)
     changeset = Employee.changeset(employee, employee_params)
 
     case Repo.update(changeset) do
@@ -63,18 +63,11 @@ defmodule Appointments.EmployeeController do
   end
 
   def delete(conn, %{"id" => id}, user) do
-    employee = get_employee(id, user)
+    employee = get_by_id_and_company(Employee, id, user)
     Repo.delete!(employee)
 
     conn
     |> put_flash(:info, "Employee deleted successfully.")
     |> redirect(to: employee_path(conn, :index))
-  end
-
-  defp get_employee(id, user) do
-    query = from e in Employee,
-      where: e.id == ^id and e.company_id == ^user.company_id,
-      select: e
-    Repo.one!(query)
   end
 end

@@ -34,18 +34,18 @@ defmodule Appointments.ClientController do
   end
 
   def show(conn, %{"id" => id}, user) do
-    client = get_client(id, user)
+    client = get_by_id_and_company(Client, id, user)
     render(conn, "show.html", client: client)
   end
 
   def edit(conn, %{"id" => id}, user) do
-    client = get_client(id, user)
+    client = get_by_id_and_company(Client, id, user)
     changeset = Client.changeset(client)
     render(conn, "edit.html", client: client, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "client" => client_params}, user) do
-    client = get_client(id, user)
+    client = get_by_id_and_company(Client, id, user)
     changeset = Client.changeset(client, client_params)
 
     case Repo.update(changeset) do
@@ -59,18 +59,11 @@ defmodule Appointments.ClientController do
   end
 
   def delete(conn, %{"id" => id}, user) do
-    client = get_client(id, user)
+    client = get_by_id_and_company(Client, id, user)
     Repo.delete!(client)
 
     conn
     |> put_flash(:info, "Client deleted successfully.")
     |> redirect(to: client_path(conn, :index))
-  end
-
-  defp get_client(id, user) do
-    query = from c in Client,
-      where: c.id == ^id and c.company_id == ^user.company_id,
-      select: c
-    Repo.one!(query)
   end
 end

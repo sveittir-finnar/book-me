@@ -36,18 +36,18 @@ defmodule Appointments.ServiceController do
   end
 
   def show(conn, %{"id" => id}, user) do
-    service = get_service(id, user)
+    service = get_by_id_and_company(Service, id, user)
     render(conn, "show.html", service: service)
   end
 
   def edit(conn, %{"id" => id}, user) do
-    service = get_service(id, user)
+    service = get_by_id_and_company(Service, id, user)
     changeset = Service.changeset(service)
     render(conn, "edit.html", service: service, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "service" => service_params}, user) do
-    service = get_service(id, user)
+    service = get_by_id_and_company(Service, id, user)
     changeset = Service.changeset(service, service_params)
 
     case Repo.update(changeset) do
@@ -61,7 +61,7 @@ defmodule Appointments.ServiceController do
   end
 
   def delete(conn, %{"id" => id}, user) do
-    service = get_service(id, user)
+    service = get_by_id_and_company(Service, id, user)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
@@ -70,12 +70,5 @@ defmodule Appointments.ServiceController do
     conn
     |> put_flash(:info, "Service deleted successfully.")
     |> redirect(to: service_path(conn, :index))
-  end
-
-  defp get_service(id, user) do
-    query = from s in Service,
-      where: s.id == ^id and s.company_id == ^user.company_id,
-      select: s
-    Repo.one!(query)
   end
 end

@@ -36,6 +36,13 @@ defmodule Appointments.Web do
 
       import Appointments.Router.Helpers
       import Appointments.Gettext
+
+      def get_by_id_and_company(model, id, user) do
+        query = from row in model,
+          where: row.id == ^id and row.company_id == ^user.company_id,
+          select: row
+        Repo.one!(query)
+      end
     end
   end
 

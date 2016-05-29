@@ -1,16 +1,22 @@
 defmodule Appointments.ReservationController do
   use Appointments.Web, :controller
 
+  import Appointments.Authorize
   alias Appointments.Reservation
 
   plug :scrub_params, "reservation" when action in [:create, :update]
 
-  def index(conn, _params) do
-    reservations = Repo.all(Reservation)
+  def action(conn, _), do: authorize_action conn, __MODULE__
+
+  def index(conn, _params, user) do
+    query = from r in Reservation,
+            where: r.company_id == ^user.company_id,
+            select: r
+    reservations = Repo.all(query)
     render(conn, "index.json", reservations: reservations)
   end
 
-  def create(conn, %{"reservation" => reservation_params}) do
+  def create(conn, %{"reservation" => reservation_params}, user) do
     changeset = Reservation.changeset(%Reservation{}, reservation_params)
 
     case Repo.insert(changeset) do
@@ -26,13 +32,13 @@ defmodule Appointments.ReservationController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    reservation = Repo.get!(Reservation, id)
+  def show(conn, %{"id" => id}, user) do
+    reservation = get_by_id_and_company(Reservation, id, user)
     render(conn, "show.json", reservation: reservation)
   end
 
-  def update(conn, %{"id" => id, "reservation" => reservation_params}) do
-    reservation = Repo.get!(Reservation, id)
+  def update(conn, %{"id" => id, "reservation" => reservation_params}, user) do
+    reservation = get_by_id_and_company(Reservation, id, user)
     changeset = Reservation.changeset(reservation, reservation_params)
 
     case Repo.update(changeset) do
@@ -45,13 +51,9 @@ defmodule Appointments.ReservationController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    reservation = Repo.get!(Reservation, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
+  def delete(conn, %{"id" => id}, user) do
+    reservation = get_by_id_and_company(Reservation, id, user)
     Repo.delete!(reservation)
-
     send_resp(conn, :no_content, "")
   end
 end

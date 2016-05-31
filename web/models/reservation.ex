@@ -1,5 +1,6 @@
 defmodule Appointments.Reservation do
   use Appointments.Web, :model
+  use Timex.Ecto.Timestamps
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
@@ -8,8 +9,8 @@ defmodule Appointments.Reservation do
     field :type, :string
 
     field :all_day, :boolean, default: false
-    field :start_time, Ecto.DateTime
-    field :end_time, Ecto.DateTime, default: nil
+    field :start_time, Timex.Ecto.DateTime
+    field :end_time, Timex.Ecto.DateTime, default: nil
     field :duration, :integer
     field :cleanup_duration, :integer
 
@@ -25,10 +26,10 @@ defmodule Appointments.Reservation do
 
   def shared_validations(model) do
     model
-    |> validate_inclusion(:type, ~w(reservation personal))
+    |> validate_inclusion(:type, ~w(client personal))
   end
 
-  def reserve_changeset(model, params \\ :empty) do
+  def client_changeset(model, params \\ :empty) do
     required_fields = ~w(type start_time client_id company_id service_id)
     optional_fields = ~w(all_day duration cleanup_duration end_time notes)
 

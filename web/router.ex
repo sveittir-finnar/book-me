@@ -12,6 +12,7 @@ defmodule Appointments.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug Openmaize.Authenticate
   end
 
   scope "/", Appointments do

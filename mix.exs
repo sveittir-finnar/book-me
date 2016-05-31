@@ -14,8 +14,7 @@ defmodule Appointments.Mixfile do
        "coveralls": :test,
        "coveralls.detail": :test,
        "coveralls.post": :test,
-       "coveralls.html": :test,
-       "covearlls.travis": :test
+       "coveralls.html": :test
       ],
      aliases: aliases,
      deps: deps]
@@ -28,7 +27,7 @@ defmodule Appointments.Mixfile do
     [mod: {Appointments, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex,
-                    :openmaize, :openmaize_jwt]]
+                    :openmaize, :openmaize_jwt, :timex, :timex_ecto]]
   end
 
   # Specifies which paths to compile per environment.
@@ -49,6 +48,8 @@ defmodule Appointments.Mixfile do
      {:openmaize, "~> 0.18"},
      {:openmaize_jwt, "~> 0.9"},
      {:ex_json_schema, "~> 0.4.0"},
+     {:timex, "~> 2.1.5"},
+     {:timex_ecto, "~> 1.0.4"},
 
      # For country data
      {:yamerl, github: "yakaz/yamerl"},

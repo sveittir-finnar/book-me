@@ -1,6 +1,7 @@
 defmodule Appointments.Factory do
   use ExMachina.Ecto, repo: Appointments.Repo
-  alias Appointments.{Employee, Company, Service, Client}
+  alias Appointments.{Employee, Company, Service, Client, Reservation}
+  use Timex
 
   def company_factory do
     %Company{name: "A Test Company!"}
@@ -29,6 +30,32 @@ defmodule Appointments.Factory do
       first_name: "Gisli",
       last_name: "Baldursson",
       company: build(:company)
+    }
+  end
+
+  def personal_reservation_factory do
+    # required_fields = ~w(type start_time title company_id employee_id)
+    # optional_fields = ~w(all_day duration cleanup_duration end_time notes)
+    %Reservation{
+      type: "personal",
+      title: "Hvítasunnudagur",
+      start_time: DateTime.today(),
+      duration: 45,
+      employee: build(:employee),
+      company: build(:company)
+    }
+  end
+
+  def client_reservation_factory do
+    # required_fields = ~w(type start_time client_id company_id service_id)
+    # optional_fields = ~w(all_day duration cleanup_duration end_time notes)
+    %Reservation{
+      type: "client",
+      start_time: DateTime.now(),
+      duration: 45,
+      client: build(:client),
+      company: build(:company),
+      service: build(:service)
     }
   end
 end

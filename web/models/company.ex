@@ -45,6 +45,7 @@ defmodule Appointments.Company do
 
     has_many :employees, Appointments.Employee
     has_many :services, Appointments.Service
+    has_many :clients, Appointments.Client
 
     timestamps
   end

@@ -34,7 +34,7 @@ defmodule Appointments.RegistrationController do
         end
       end do
         {:ok, employee} ->
-          {:ok, token} = JWT.create_token(conn, employee, :email, :cookie)
+          {:ok, token} = JWT.create_token(employee, :email)
           conn
           |> put_status(:created)
           |> put_resp_cookie("access_token", token, [http_only: true])

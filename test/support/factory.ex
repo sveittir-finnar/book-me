@@ -1,6 +1,6 @@
 defmodule Appointments.Factory do
   use ExMachina.Ecto, repo: Appointments.Repo
-  alias Appointments.{Employee, Company, Service}
+  alias Appointments.{Employee, Company, Service, Client}
 
   def company_factory do
     %Company{name: "A Test Company!"}
@@ -24,4 +24,11 @@ defmodule Appointments.Factory do
     }
   end
 
+  def client_factory do
+    %Client{
+      first_name: "Gisli",
+      last_name: "Baldursson",
+      company: build(:company)
+    }
+  end
 end

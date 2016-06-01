@@ -26,9 +26,10 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <%= if @current_user do %>
-              <li class="<%= active?(@conn, 'employees') %>"><a href="<%= employee_path(@conn, :index) %>">Staff</a></li>
-              <li class="<%= active?(@conn, 'services') %>"><a href="<%= service_path(@conn, :index) %>">Services</a></li>
-              <li class="<%= active?(@conn, 'settings') %>"><a href="<%= company_path(@conn, :edit) %>">Settings</a></li>
+              <li class="<%= active?(@conn, "employees") %>"><a href="<%= employee_path(@conn, :index) %>">Staff</a></li>
+              <li class="<%= active?(@conn, "services") %>"><a href="<%= service_path(@conn, :index) %>">Services</a></li>
+              <li class="<%= active?(@conn, "clients") %>"><a href="<%= client_path(@conn, :index) %>">Clients</a></li>
+              <li class="<%= active?(@conn, "settings") %>"><a href="<%= company_path(@conn, :edit) %>">Settings</a></li>
             <%= end %>
           </ul>
           <ul class="nav navbar-nav navbar-right">

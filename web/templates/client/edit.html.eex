@@ -1,0 +1,4 @@
+<h2>Edit client</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: client_path(@conn, :update, @client) %>

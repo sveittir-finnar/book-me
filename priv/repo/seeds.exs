@@ -10,8 +10,15 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias Appointments.{Repo, Company, Employee, Service}
+alias Appointments.{Repo, Company, Employee, Service, Client}
 import Openmaize.DB
+
+# Clean everything up
+
+Repo.delete_all(Client)
+Repo.delete_all(Service)
+Repo.delete_all(Employee)
+Repo.delete_all(Company)
 
 # Create companies
 
@@ -126,3 +133,27 @@ key = "a"
   company_id: company2.id
 })
 |> Repo.insert!
+
+# Create clients
+
+Client.changeset(%Client{}, %{
+  first_name: "Gisli Marteinn",
+  last_name: "Baldursson",
+  email: "gmb@gmb.is",
+  phone: "+354 123 4567",
+  notes: "A good fella.",
+  company_id: company1.id
+}) |> Repo.insert!
+
+Client.changeset(%Client{}, %{
+  first_name: "Sigurgeir",
+  last_name: "Baldursson",
+  email: "siggi@baldursson.is",
+  company_id: company1.id
+}) |> Repo.insert!
+
+Client.changeset(%Client{}, %{
+  first_name: "Kjartan",
+  last_name: "Marteinsson",
+  company_id: company2.id
+}) |> Repo.insert!

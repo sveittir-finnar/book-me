@@ -27,7 +27,7 @@ defmodule Appointments.Mixfile do
   def application do
     [mod: {Appointments, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex,
+                    :phoenix_ecto, :postgrex, :httpoison, :ex_aws,
                     :openmaize, :openmaize_jwt]]
   end
 
@@ -49,6 +49,9 @@ defmodule Appointments.Mixfile do
      {:openmaize, "~> 0.18"},
      {:openmaize_jwt, "~> 0.9"},
      {:ex_json_schema, "~> 0.4.0"},
+     {:arc, "~> 0.5.2"},
+     {:ex_aws, "~> 0.4.10"},
+     {:httpoison, "~> 0.7"},
 
      # For country data
      {:yamerl, github: "yakaz/yamerl"},

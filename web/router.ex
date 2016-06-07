@@ -34,6 +34,9 @@ defmodule Appointments.Router do
     get "/settings", CompanyController, :edit
     patch "/settings", CompanyController, :update
 
+    # Uploads
+    post "/uploads", UploadController, :create
+
     # Resources
     resources "/employees", EmployeeController
     resources "/companies", CompanyController, only: [:show]

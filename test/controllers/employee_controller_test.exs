@@ -3,7 +3,11 @@ defmodule Appointments.EmployeeControllerTest do
 
   alias Appointments.{Repo, Employee}
 
-  @valid_attrs %{email: "david@bowie.com", first_name: "David", last_name: "Bowie", role: "restricted"}
+  @valid_attrs %{
+    email: "david@bowie.com",
+    first_name: "David",
+    last_name: "Bowie",
+    role: "restricted"}
   @invalid_attrs %{}
 
   setup do

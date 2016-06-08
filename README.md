@@ -1,7 +1,7 @@
 # BookMe
 
-[![Build Status](https://travis-ci.org/sveittir-finnar/book-me.svg?branch=master)](https://travis-ci.org/sveittir-finnar/book-me)
-[![Coverage Status](https://coveralls.io/repos/github/sveittir-finnar/book-me/badge.svg?branch=master)](https://coveralls.io/github/sveittir-finnar/book-me?branch=master)
+[![Build Status](https://travis-ci.org/sveittu-finnarnir/book-me.svg?branch=master)](https://travis-ci.org/sveittu-finnarnir/book-me)
+[![Coverage Status](https://coveralls.io/repos/github/sveittu-finnarnir/book-me/badge.svg?branch=master)](https://coveralls.io/github/sveittu-finnarnir/book-me?branch=master)
 
 ## Setup
 

@@ -27,10 +27,9 @@ defmodule Appointments.Avatar do
   # end
 
   # Provide a default URL if there hasn't been a file uploaded
-  # def default_url(version, scope) do
-  #   "/images/avatars/default_#{version}.png"
-  # end
-
+  def default_url(_) do
+    "https://placehold.it/250x250"
+  end
   # Specify custom headers for s3 objects
   # Available options are [:cache_control, :content_disposition,
   #    :content_encoding, :content_length, :content_type,

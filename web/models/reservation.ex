@@ -47,3 +47,14 @@ defmodule Appointments.Reservation do
     |> shared_validations
   end
 end
+
+defimpl Poison.Encoder, for: Appointments.Reservation do
+  def encode(model, opts) do
+    model
+    |> Map.take([
+      :title, :type, :all_day, :start_time, :end_time,
+      :duration, :cleanup_duration, :notes,
+      :employee_id, :company_id, :service_id, :client_id
+    ]) |> Poison.Encoder.encode(opts)
+  end
+end

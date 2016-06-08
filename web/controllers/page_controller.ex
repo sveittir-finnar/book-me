@@ -2,7 +2,17 @@ defmodule Appointments.PageController do
   use Appointments.Web, :controller
 
   import Appointments.{Authorize, Confirm}
-  alias Appointments.Employee
+  alias Appointments.{Employee, Reservation}
+
+  # Authentication
+
+  # TODO(krummi): Revisit this when I know something
+  def action(conn, _) do
+    case action_name(conn) do
+      :calendar -> authorize_action(conn, __MODULE__)
+      action -> apply(__MODULE__, action, [conn, conn.params])
+    end
+  end
 
   # TODO(krummi): Send this as an email
   def receipt_confirm(email) do
@@ -48,6 +58,20 @@ defmodule Appointments.PageController do
 
   def askreset(conn, _params) do
     render(conn, "reset.html")
+  end
+
+  def calendar(conn, params, user) do
+    IO.inspect(params)
+    IO.inspect(user)
+    query = from r in Reservation,
+            where: r.company_id == ^user.company_id,
+            select: r
+    reservations = Repo.all(query)
+    # json = Poison.encode!(reservations)
+    %Plug.Conn{req_cookies: %{"access_token" => access_token}} = conn
+    access_token = conn.req_cookies["access_token"]
+    render(conn, "calendar.html",
+      reservations: reservations, access_token: access_token)
   end
 
   def send_an_email(email, link) do

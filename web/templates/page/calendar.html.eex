@@ -1,3 +1,7 @@
+<script type="text/javascript">
+  document.access_token = '<%= @access_token %>';
+</script>
+
 <div id="calendar">
 
 </div>

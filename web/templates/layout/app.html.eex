@@ -9,6 +9,8 @@
 
     <title>book.me</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.7.3/fullcalendar.print.css" media="print">
   </head>
 
   <body>
@@ -26,6 +28,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <%= if @current_user do %>
+              <li class="<%= active?(@conn, "calendar") %>"><a href="<%= page_path(@conn, :calendar) %>">Calendar</a></li>
               <li class="<%= active?(@conn, "employees") %>"><a href="<%= employee_path(@conn, :index) %>">Staff</a></li>
               <li class="<%= active?(@conn, "services") %>"><a href="<%= service_path(@conn, :index) %>">Services</a></li>
               <li class="<%= active?(@conn, "clients") %>"><a href="<%= client_path(@conn, :index) %>">Clients</a></li>

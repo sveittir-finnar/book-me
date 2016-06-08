@@ -35,6 +35,9 @@ defmodule Appointments.Router do
     get "/settings", CompanyController, :edit
     patch "/settings", CompanyController, :update
 
+    # Calendar
+    get "/calendar", PageController, :calendar
+
     # Resources
     resources "/employees", EmployeeController
     resources "/companies", CompanyController, only: [:show]

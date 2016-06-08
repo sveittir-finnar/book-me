@@ -22,5 +22,6 @@ import "phoenix_html"
 
 import _ from "lodash"
 import $ from "jquery"
+import fullcalendar from "fullcalendar"
 
 import registration from "./registration"

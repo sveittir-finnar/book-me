@@ -46,15 +46,26 @@ defmodule Appointments.Reservation do
     |> cast(params, required_fields, optional_fields)
     |> shared_validations
   end
+
+  def get_computed_end_time(reservation) do
+    if reservation.all_day do
+      nil
+    else
+      time = Timex.shift(reservation.start_time, minutes: reservation.duration)
+      if reservation.cleanup_duration do
+        time = Timex.shift(time, minutes: reservation.cleanup_duration)
+      end
+      time
+    end
+  end
+
 end
 
-defimpl Poison.Encoder, for: Appointments.Reservation do
-  def encode(model, opts) do
-    model
-    |> Map.take([
-      :title, :type, :all_day, :start_time, :end_time,
-      :duration, :cleanup_duration, :notes,
-      :employee_id, :company_id, :service_id, :client_id
-    ]) |> Poison.Encoder.encode(opts)
+# TODO(krummi): Move somewhere logical
+defimpl Poison.Encoder, for: Timex.DateTime do
+  use Timex
+  def encode(d, _options) do
+    fmt = Timex.format!(d, "{ISO}")
+    "\"#{fmt}\""
   end
 end

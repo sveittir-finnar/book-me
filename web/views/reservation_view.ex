@@ -1,6 +1,8 @@
 defmodule Appointments.ReservationView do
   use Appointments.Web, :view
 
+  alias Appointments.Reservation
+
   def render("index.json", %{reservations: reservations}) do
     %{data: render_many(reservations, Appointments.ReservationView, "reservation.json")}
   end
@@ -10,7 +12,8 @@ defmodule Appointments.ReservationView do
   end
 
   def render("reservation.json", %{reservation: reservation}) do
-    %{id: reservation.id,
+    %{
+      id: reservation.id,
       title: reservation.title,
       type: reservation.type,
       all_day: reservation.all_day,
@@ -22,6 +25,10 @@ defmodule Appointments.ReservationView do
       employee_id: reservation.employee_id,
       service_id: reservation.service_id,
       company_id: reservation.company_id,
-      client_id: reservation.client_id}
+      client_id: reservation.client_id,
+      computed: %{
+        end_time: Reservation.get_computed_end_time(reservation)
+      }
+    }
   end
 end

@@ -11,6 +11,7 @@ defmodule Appointments.ReservationController do
   def index(conn, _params, user) do
     query = from r in Reservation,
             where: r.company_id == ^user.company_id,
+            order_by: r.start_time,
             select: r
     reservations = Repo.all(query)
     render(conn, "index.json", reservations: reservations)

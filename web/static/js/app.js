@@ -20,32 +20,8 @@ import "phoenix_html"
 
 // import socket from "./socket"
 
-import _ from "lodash"
-import $ from "jquery"
-import fullcalendar from "fullcalendar"
+import _ from 'lodash'
+import $ from 'jquery'
 
-import registration from "./registration"
-
-// TODO: Move this somewhere else
-$(() => {
-  $.ajax({
-    url: '/reservations/',
-    method: 'GET',
-    headers: {
-      authorization: 'Bearer ' + document.access_token
-    }
-  })
-  .then(res => {
-    console.log(res);
-    $('#calendar').fullCalendar({
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,basicWeek,basicDay'
-      },
-  		defaultView: 'agendaWeek',
-      editable: true
-    });
-  });
-
-});
+import './registration'
+import './calendar'

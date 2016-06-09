@@ -156,16 +156,27 @@ Client.changeset(%Client{}, %{
 Reservation.personal_changeset(%Reservation{}, %{
   company_id: company1.id,
   type: "personal",
-  start_time: DateTime.now(),
+  start_time: Date.to_datetime(Timex.shift(DateTime.today(), days: 2, hours: 9)),
   title: "Hvítasunnudagurinn",
+  all_day: true,
   employee_id: employee1.id
 }) |> Repo.insert!
 
 Reservation.client_changeset(%Reservation{}, %{
   company_id: company1.id,
   type: "client",
-  start_time: DateTime.now(),
+  start_time: Date.to_datetime(Timex.shift(DateTime.today(), days: 1, hours: 10)),
   duration: 45,
+  cleanup_duration: 5,
+  client_id: client1.id,
+  service_id: service1.id
+}) |> Repo.insert!
+
+Reservation.client_changeset(%Reservation{}, %{
+  company_id: company1.id,
+  type: "client",
+  start_time: Date.to_datetime(Timex.shift(DateTime.today(), days: 1, hours: 11)),
+  duration: 30,
   client_id: client1.id,
   service_id: service1.id
 }) |> Repo.insert!

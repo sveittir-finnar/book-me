@@ -61,17 +61,9 @@ defmodule Appointments.PageController do
   end
 
   def calendar(conn, params, user) do
-    IO.inspect(params)
-    IO.inspect(user)
-    query = from r in Reservation,
-            where: r.company_id == ^user.company_id,
-            select: r
-    reservations = Repo.all(query)
-    # json = Poison.encode!(reservations)
     %Plug.Conn{req_cookies: %{"access_token" => access_token}} = conn
     access_token = conn.req_cookies["access_token"]
-    render(conn, "calendar.html",
-      reservations: reservations, access_token: access_token)
+    render(conn, "calendar.html", access_token: access_token)
   end
 
   def send_an_email(email, link) do

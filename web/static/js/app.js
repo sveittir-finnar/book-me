@@ -21,7 +21,7 @@ import "phoenix_html"
 // import socket from "./socket"
 
 import _ from 'lodash'
-import $ from 'jquery'
+import 'select2'
 
 import './registration'
 import './calendar'

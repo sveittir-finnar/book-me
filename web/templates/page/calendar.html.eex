@@ -1,7 +1,60 @@
-<script type="text/javascript">
-  document.access_token = '<%= @access_token %>';
-</script>
 
-<div id="calendar">
+<div class="row" style="margin-bottom: 20px;">
+  <script type="text/javascript">
+    document.access_token = '<%= @access_token %>';
+  </script>
 
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-reservation">
+    Add an appointment
+  </button>
 </div>
+
+<div class="row" style="border: solid 1px #000; padding: 15px; margin-bottom: 20px;">
+  <form id="reservation" action="POST">
+    <h4>Client</h4>
+    <fieldset>
+      <select class="form-control" id="client-id" name="reservation[client_id]" style="width: 100%;">
+        <%= for client <- @clients do %>
+          <option value="<%= client.id %>"><%= Client.full_name(client) %></option>
+        <%= end %>
+      </select>
+    </fieldset>
+
+    <h4>Time</h4>
+    <fieldset>
+      <label>
+        <input type="checkbox" id="client-all-day" name="reservation[all_day]" />
+        All day?
+      </label>
+      <input class="form-control" id="client-start-time" name="reservation[start_time]" placeholder="Start time (yyyy-mm-dd hh:mm:ss)" />
+    </fieldset>
+
+    <h4>Service</h4>
+  </form>
+</div>
+
+<div class="row">
+  <div id="calendar">
+
+  </div>
+</div>
+
+<!--
+<div class="modal fade" id="add-reservation" role="dialog" aria-labelledby="add-reservation">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add an appointment</h4>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+-->

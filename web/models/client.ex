@@ -32,4 +32,8 @@ defmodule Appointments.Client do
     |> validate_format(:email, ~r/@/)
     |> update_change(:email, &String.downcase/1)
   end
+
+  def full_name(client) do
+    "#{client.first_name} #{client.last_name}"
+  end
 end

@@ -32,7 +32,7 @@ function populate (calendar) {
       header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'month,basicWeek,basicDay'
+        right: 'month,agendaWeek,agendaDay'
       },
       defaultView: 'agendaWeek',
       editable: true,
@@ -46,5 +46,8 @@ $(() => {
   let calendar = $('#calendar');
   if (calendar.length > 0) {
     populate(calendar);
+
+    // Populate clients
+    $("#client-id").select2();
   }
 });

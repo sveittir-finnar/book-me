@@ -2,7 +2,7 @@ defmodule Appointments.PageController do
   use Appointments.Web, :controller
 
   import Appointments.{Authorize, Confirm}
-  alias Appointments.{Employee, Reservation, Client}
+  alias Appointments.{Employee, Reservation, Client, Service}
 
   import Ecto.Query, only: [from: 2]
 
@@ -62,19 +62,23 @@ defmodule Appointments.PageController do
     render(conn, "reset.html")
   end
 
+  defp for_company(query, company_id) do
+    from c in query, where: c.company_id == ^company_id
+  end
+
   def calendar(conn, params, user) do
     # Fetch clients of this company, doesn't scale well but suffices for now
-    client_query = from c in Client,
-                   where: c.company_id == ^user.company_id,
-                   select: c
-    clients = Repo.all(client_query)
+    clients = Client |> for_company(user.company_id) |> Repo.all
 
+    services = Service |> for_company(user.company_id) |> Repo.all
+    employees = Employee |> for_company(user.company_id) |> Repo.all
+
+    # Fetch the access_token for this user from the cookie
     %Plug.Conn{req_cookies: %{"access_token" => access_token}} = conn
     access_token = conn.req_cookies["access_token"]
-    render(conn, "calendar.html",
-      access_token: access_token,
-      clients: clients
-    )
+
+    render(conn, "calendar.html", access_token: access_token,
+      clients: clients, services: services, employees: employees)
   end
 
   def send_an_email(email, link) do

@@ -9,112 +9,10 @@
   </button>
 </div>
 
-<div class="row" style="border: solid 1px #000; padding: 15px; margin-bottom: 20px;">
-  <button id="client-btn">Appointment</button>
-  <button id="personal-btn">Personal</button>
-
-  <form id="reservation-form" method="POST" action="/reservations/">
-    <input type="hidden" id="type" name="type" value="" />
-
-    <div id="title" style="margin-bottom: 30px;">
-      <h4>Title <small>(optional)</small></h4>
-      <input class="form-control" id="title" name="title" placeholder="For example 'on a holiday' or '4th of july'" />
-    </div>
-
-    <div id="client" style="margin-bottom: 30px;">
-      <h4>Client</h4>
-      <fieldset>
-        <select class="form-control" id="client-id" name="client_id" style="width: 100%;">
-          <option value="">Add a client</option>
-          <%= for client <- @clients do %>
-            <option value="<%= client.id %>"><%= Client.full_name(client) %></option>
-          <%= end %>
-        </select>
-      </fieldset>
-      <div class="errors" id="client-id-err"></div>
-    </div>
-
-    <div id="employee" style="margin-bottom: 30px;">
-      <h4>Employee</h4>
-      <fieldset>
-        <select class="form-control" id="employee-id" name="employee_id" style="width: 100%;">
-          <option value="">Any employee</option>
-          <%= for employee <- @employees do %>
-            <option value="<%= employee.id %>"><%= Employee.full_name(employee) %></option>
-          <%= end %>
-        </select>
-      </fieldset>
-      <div class="errors" id="employee-id-err"></div>
-    </div>
-
-    <div id="date-and-time" style="margin-bottom: 30px;">
-      <h4>Date &amp; Time</h4>
-      <fieldset>
-        <label>
-          <input type="checkbox" id="all-day" name="all_day" />
-          All day?
-        </label>
-        <div class="row">
-          <div class="col-md-6">
-            <input type="date" class="form-control" id="start-date" name="start_date" placeholder="Start date" />
-            <div class="errors" id="start-date-err"></div>
-          </div>
-          <div class="col-md-6">
-            <input type="time" class="form-control" id="start-time" name="start_time" placeholder="Start time" />
-            <div class="errors" id="start-time-err"></div>
-          </div>
-        </div>
-      </fieldset>
-    </div>
-
-    <div id="service" style="margin-bottom: 30px;">
-      <h4>Service</h4>
-      <fieldset>
-        <select class="form-control" id="service-id" name="service_id">
-          <option value="">Add a service</option>
-          <%= for service <- @services do %>
-            <option value="<%= service.id %>" data-duration="<%= service.duration %>">
-              <%= service.name %>
-            </option>
-          <%= end %>
-          <option value="other" data-duration="60">Other</option>
-        </select>
-        <div id="service-details" style="display: none;">
-          <div class="input-group">
-            <select class="form-control" id="duration-hours" name="duration_hours">
-              <%= for i <- 0..23 do %>
-                <option><%= i %></option>
-              <%= end %>
-            </select>
-            <div class="input-group-addon">hour(s)</div>
-            <select class="form-control" id="duration-minutes" name="duration_minutes">
-              <%= for i <- [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] do %>
-                <option><%= i %></option>
-              <%= end %>
-            </select>
-            <div class="input-group-addon">minutes</div>
-          </div>
-        </div>
-      </fieldset>
-      <div class="errors" id="service-id-err"></div>
-    </div>
-
-    <div id="notes" style="margin-bottom: 10px;">
-      <h4>Notes <small>(optional)</small></h4>
-      <fieldset>
-        <textarea class="form-control" id="notes" name="notes"></textarea>
-      </fieldset>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-  </form>
-</div>
-
 <div class="row">
   <div id="calendar"></div>
 </div>
 
-<!--
 <div class="modal fade" id="add-reservation" role="dialog" aria-labelledby="add-reservation">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -123,13 +21,107 @@
         <h4 class="modal-title" id="myModalLabel">Add an appointment</h4>
       </div>
       <div class="modal-body">
+        <button id="client-btn">Appointment</button>
+        <button id="personal-btn">Personal</button>
 
+        <form id="reservation-form" method="POST" action="/reservations/">
+          <input type="hidden" id="type" name="type" value="" />
+
+          <div id="title" style="margin-bottom: 30px;">
+            <h4>Title <small>(optional)</small></h4>
+            <input class="form-control" id="title" name="title" placeholder="For example 'on a holiday' or '4th of july'" />
+          </div>
+
+          <div id="client" style="margin-bottom: 30px;">
+            <h4>Client</h4>
+            <fieldset>
+              <select class="form-control" id="client-id" name="client_id" style="width: 100%;">
+                <option value="">Add a client</option>
+                <%= for client <- @clients do %>
+                  <option value="<%= client.id %>"><%= Client.full_name(client) %></option>
+                <%= end %>
+              </select>
+            </fieldset>
+            <div class="errors" id="client-id-err"></div>
+          </div>
+
+          <div id="employee" style="margin-bottom: 30px;">
+            <h4>Employee</h4>
+            <fieldset>
+              <select class="form-control" id="employee-id" name="employee_id" style="width: 100%;">
+                <option value="">Any employee</option>
+                <%= for employee <- @employees do %>
+                  <option value="<%= employee.id %>"><%= Employee.full_name(employee) %></option>
+                <%= end %>
+              </select>
+            </fieldset>
+            <div class="errors" id="employee-id-err"></div>
+          </div>
+
+          <div id="date-and-time" style="margin-bottom: 30px;">
+            <h4>Date &amp; Time</h4>
+            <fieldset>
+              <label>
+                <input type="checkbox" id="all-day" name="all_day" />
+                All day?
+              </label>
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="date" class="form-control" id="start-date" name="start_date" placeholder="Start date" />
+                  <div class="errors" id="start-date-err"></div>
+                </div>
+                <div class="col-md-6">
+                  <input type="time" class="form-control" id="start-time" name="start_time" placeholder="Start time" />
+                  <div class="errors" id="start-time-err"></div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div id="service" style="margin-bottom: 30px;">
+            <h4>Service</h4>
+            <fieldset>
+              <select class="form-control" id="service-id" name="service_id">
+                <option value="">Add a service</option>
+                <%= for service <- @services do %>
+                  <option value="<%= service.id %>" data-duration="<%= service.duration %>">
+                    <%= service.name %>
+                  </option>
+                <%= end %>
+                <option value="other" data-duration="60">Other</option>
+              </select>
+              <div id="service-details" style="display: none;">
+                <div class="input-group">
+                  <select class="form-control" id="duration-hours" name="duration_hours">
+                    <%= for i <- 0..23 do %>
+                      <option><%= i %></option>
+                    <%= end %>
+                  </select>
+                  <div class="input-group-addon">hour(s)</div>
+                  <select class="form-control" id="duration-minutes" name="duration_minutes">
+                    <%= for i <- [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] do %>
+                      <option><%= i %></option>
+                    <%= end %>
+                  </select>
+                  <div class="input-group-addon">minutes</div>
+                </div>
+              </div>
+            </fieldset>
+            <div class="errors" id="service-id-err"></div>
+          </div>
+
+          <div id="notes" style="margin-bottom: 10px;">
+            <h4>Notes <small>(optional)</small></h4>
+            <fieldset>
+              <textarea class="form-control" id="notes" name="notes"></textarea>
+            </fieldset>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button>
+        <button id="reservation-submit" type="button" class="btn btn-primary">Save</button>
       </div>
     </div>
   </div>
 </div>
--->

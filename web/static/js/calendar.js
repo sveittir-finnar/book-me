@@ -105,12 +105,8 @@ function validate(form) {
 }
 
 function formToReservation(form) {
-  let data;
-  if (form.type === 'personal') {
-    data = handlePersonal(form);
-  } else if (form.type === 'client') {
-    data = handleClient(form);
-  }
+  let data = (
+    form.type === 'personal' ? handlePersonal(form) : handleClient(form));
 
   // {start_date, start_time} -> start_time
   if (data.all_day === 'on') {
@@ -132,17 +128,13 @@ function formToReservation(form) {
 }
 
 function handlePersonal(form) {
-  console.log('before:', form);
-  form = _.pick(form, [
+  return _.pick(form, [
     'type', 'title', 'all_day', 'employee_id', 'notes',
     'start_date', 'start_time'
-  ]);
-  console.log('after:', form);
-  return form;
+  ]);;
 }
 
 function handleClient(form) {
-  console.log('before:', form);
   form = _.pick(form, [
     'type', 'all_day', 'employee_id', 'notes', 'start_date', 'start_time',
     'client_id', 'service_id', 'duration_hours', 'duration_minutes'
@@ -166,6 +158,10 @@ $(() => {
   }
 
   populate(calendar);
+
+  $('#reservation-submit').click(() => {
+    $('#reservation-form').submit();
+  })
 
   $('#reservation-form').submit(event => {
     // Start by validating the form
@@ -193,6 +189,7 @@ $(() => {
     })
     .done((data) => {
       // TODO(krummi): Reload the webpage or something...
+      alert('created!');
     })
     .fail((err, status) => {
       console.log(err);

@@ -67,14 +67,12 @@ defmodule Appointments.PageController do
   end
 
   def calendar(conn, params, user) do
-    # Fetch clients of this company, doesn't scale well but suffices for now
+    # Fetching all clients is probably not the best idea, but lets do it for now
     clients = Client |> for_company(user.company_id) |> Repo.all
-
     services = Service |> for_company(user.company_id) |> Repo.all
     employees = Employee |> for_company(user.company_id) |> Repo.all
 
     # Fetch the access_token for this user from the cookie
-    %Plug.Conn{req_cookies: %{"access_token" => access_token}} = conn
     access_token = conn.req_cookies["access_token"]
 
     render(conn, "calendar.html", access_token: access_token,

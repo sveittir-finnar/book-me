@@ -17,8 +17,14 @@ defmodule Appointments.ReservationController do
     render(conn, "index.json", reservations: reservations)
   end
 
-  def create(conn, %{"reservation" => reservation_params}, user) do
-    changeset = Reservation.changeset(%Reservation{}, reservation_params)
+  def create(conn, %{"reservation" => params}, user) do
+    # Attach company_id to the reservation
+    params = Map.put(params, "company_id", user.company_id)
+
+    changeset = case params["type"] do
+      "personal" -> Reservation.personal_changeset(%Reservation{}, params)
+      "client" -> Reservation.client_changeset(%Reservation{}, params)
+    end
 
     case Repo.insert(changeset) do
       {:ok, reservation} ->
@@ -38,9 +44,9 @@ defmodule Appointments.ReservationController do
     render(conn, "show.json", reservation: reservation)
   end
 
-  def update(conn, %{"id" => id, "reservation" => reservation_params}, user) do
+  def update(conn, %{"id" => id, "reservation" => params}, user) do
     reservation = get_by_id_and_company(Reservation, id, user)
-    changeset = Reservation.changeset(reservation, reservation_params)
+    changeset = Reservation.changeset(reservation, params)
 
     case Repo.update(changeset) do
       {:ok, reservation} ->

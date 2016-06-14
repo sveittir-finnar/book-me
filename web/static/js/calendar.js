@@ -115,12 +115,18 @@ function formToReservation(form) {
   // {start_date, start_time} -> start_time
   if (data.all_day === 'on') {
     data.all_day = true;
-    data.start_time = `${data.start_date} 00:00`;
+    data.start_time = `${data.start_date} 00:00:00`;
   } else {
     data.all_day = false;
-    data.start_time = `${data.start_date} ${data.start_time}`;
+    data.start_time = `${data.start_date} ${data.start_time}:00`;
   }
   delete data.start_date;
+
+  // Update the keys to be on the form "reservation[key]'.
+  _.forEach(data, (value, key) => {
+    data[`reservation[${key}]`] = value;
+    delete data[key];
+  });
 
   return data;
 }
@@ -128,8 +134,8 @@ function formToReservation(form) {
 function handlePersonal(form) {
   console.log('before:', form);
   form = _.pick(form, [
-    'type', 'title', 'all_day', 'employee_id',
-    'notes', 'start_date', 'start_time'
+    'type', 'title', 'all_day', 'employee_id', 'notes',
+    'start_date', 'start_time'
   ]);
   console.log('after:', form);
   return form;
@@ -174,8 +180,24 @@ $(() => {
     let arr = $('#reservation-form').serializeArray();
     // [{ name: 'a', value: 1 }, { name: 'b', value: 3 }] => {a: 1, b: 3}
     let form = _.zipObject(_.map(arr, 'name'), _.map(arr, 'value'));
-    let data = formToReservation(form);
-    console.log('request:', data);
+    let body = formToReservation(form);
+
+    $.ajax({
+      method: 'POST',
+      url: '/reservations',
+      dataType: 'json',
+      data: body,
+      headers: {
+        authorization: 'Bearer ' + document.access_token
+      }
+    })
+    .done((data) => {
+      // TODO(krummi): Reload the webpage or something...
+    })
+    .fail((err, status) => {
+      console.log(err);
+      console.log(status);
+    });
 
     // TODO(krummi): Remove!
     event.preventDefault();

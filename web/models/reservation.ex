@@ -30,8 +30,8 @@ defmodule Appointments.Reservation do
   end
 
   def client_changeset(model, params \\ :empty) do
-    required_fields = ~w(type start_time client_id company_id service_id)
-    optional_fields = ~w(all_day duration cleanup_duration end_time notes)
+    required_fields = ~w(company_id type start_time client_id service_id)
+    optional_fields = ~w(all_day duration cleanup_duration end_time notes employee_id)
 
     model
     |> cast(params, required_fields, optional_fields)
@@ -39,8 +39,8 @@ defmodule Appointments.Reservation do
   end
 
   def personal_changeset(model, params \\ :empty) do
-    required_fields = ~w(type start_time title company_id employee_id)
-    optional_fields = ~w(all_day duration cleanup_duration end_time notes)
+    required_fields = ~w(company_id type start_time employee_id)
+    optional_fields = ~w(all_day duration cleanup_duration end_time notes title)
 
     model
     |> cast(params, required_fields, optional_fields)

@@ -60,48 +60,96 @@ function clearErrors() {
 function showError(elem, message) {
   elem.html(`<span style="color: red">${message}</span>`);
   elem.show();
+  return 1;
 }
 
 function validate(form) {
+  let errors = 0;
+
   // Date & time
-  let startDate = $('#reservation-start-date');
+  let startDate = $('#start-date');
   if (!isDate(startDate.val())) {
-    showError($('#reservation-start-date-err'), 'You must pick a date!');
+    errors += showError($('#start-date-err'), 'You must pick a date!');
   }
-  let allDay = $('#reservation-all-day');
-  let startTime = $('#reservation-start-time');
+  let allDay = $('#all-day');
+  let startTime = $('#start-time');
   if (!allDay.is(':checked') && !isTime(startTime.val())) {
-    showError($('#reservation-start-time-err'),
+    errors += showError($('#start-time-err'),
       'You must either pick a time OR an all day event!');
   }
 
-  let type = $('#reservation-type').val();
+  let type = $('#type').val();
   if (type === 'client') {
     // Validations specific to client reservations
     // Client ID
-    let clientId = $('#reservation-client-id');
+    let clientId = $('#client-id');
     if (!isUuid(clientId.val())) {
-      showError($('#reservation-client-id-err'), 'You must choose a client!');
+      errors += showError($('#client-id-err'), 'You must choose a client!');
     }
 
     // Service ID
-    let serviceId = $('#reservation-service-id');
+    let serviceId = $('#service-id').val();
     if (!isUuid(serviceId) && serviceId !== 'other') {
-      showError($('#reservation-service-id-err'),
+      errors += showError($('#service-id-err'),
         'You must either choose a service or "other" and fill in the details.');
     }
   } else if (type === 'personal') {
     // Validations specific to personal reservations
-    let employeeId = $('#reservation-employee-id').val();
+    let employeeId = $('#employee-id').val();
     if (!isUuid(employeeId)) {
-      showError($('#reservation-employee-id-err'),
-        'You must select the employee.');
+      errors += showError($('#employee-id-err'), 'You must select the employee.');
     }
   }
+  console.log('errors:', errors);
+  return errors === 0;
 }
 
 function formToReservation(form) {
+  let data;
+  if (form.type === 'personal') {
+    data = handlePersonal(form);
+  } else if (form.type === 'client') {
+    data = handleClient(form);
+  }
 
+  // {start_date, start_time} -> start_time
+  if (data.all_day === 'on') {
+    data.all_day = true;
+    data.start_time = `${data.start_date} 00:00`;
+  } else {
+    data.all_day = false;
+    data.start_time = `${data.start_date} ${data.start_time}`;
+  }
+  delete data.start_date;
+
+  return data;
+}
+
+function handlePersonal(form) {
+  console.log('before:', form);
+  form = _.pick(form, [
+    'type', 'title', 'all_day', 'employee_id',
+    'notes', 'start_date', 'start_time'
+  ]);
+  console.log('after:', form);
+  return form;
+}
+
+function handleClient(form) {
+  console.log('before:', form);
+  form = _.pick(form, [
+    'type', 'all_day', 'employee_id', 'notes', 'start_date', 'start_time',
+    'client_id', 'service_id', 'duration_hours', 'duration_minutes'
+  ]);
+
+  // duration_{hours, minutes} -> duration
+  let hours = Number(form.duration_hours);
+  let minutes = Number(form.duration_minutes);
+  form.duration = hours * 60 + minutes;
+  delete form.duration_hours;
+  delete form.duration_minutes;
+
+  return form;
 }
 
 
@@ -116,22 +164,28 @@ $(() => {
   $('#reservation-form').submit(event => {
     // Start by validating the form
     clearErrors();
-    validate();
+    let isValid = validate();
+    if (!isValid) {
+      event.preventDefault();
+      return;
+    }
 
     // Serialize it to a "reservation" object
     let arr = $('#reservation-form').serializeArray();
     // [{ name: 'a', value: 1 }, { name: 'b', value: 3 }] => {a: 1, b: 3}
     let form = _.zipObject(_.map(arr, 'name'), _.map(arr, 'value'));
-    console.log(form);
+    let data = formToReservation(form);
+    console.log('request:', data);
 
+    // TODO(krummi): Remove!
     event.preventDefault();
   });
 
-  $('#reservation-client-id').select2();
-  $('#reservation-employee-id').select2();
+  $('#client-id').select2();
+  $('#employee-id').select2();
 
   $('#personal-btn').click(() => {
-    $('#reservation-type').val('personal');
+    $('#type').val('personal');
 
     $('#client').hide();
     $('#service').hide();
@@ -139,11 +193,11 @@ $(() => {
 
     clearErrors();
 
-    $('#reservation-employee-id > option[value=""]').text('Select an employee');
+    $('#employee-id > option[value=""]').text('Select an employee');
   });
 
   $('#client-btn').click(() => {
-    $('#reservation-type').val('client');
+    $('#type').val('client');
 
     $('#client').show();
     $('#service').show();
@@ -151,29 +205,30 @@ $(() => {
 
     clearErrors();
 
-    $('#reservation-employee-id > option[value=""]').text('Any employee');
+    $('#employee-id > option[value=""]').text('Any employee');
   });
 
   // If all_day is checked, the start time should be disabled.
-  $('#reservation-all-day').change(() => {
-    let isChecked = $('#reservation-all-day').is(':checked');
+  $('#all-day').change(() => {
+    let isChecked = $('#all-day').is(':checked');
     if (isChecked) {
-      $('#reservation-start-time').attr('disabled', 'true');
+      $('#start-time').val('');
+      $('#start-time').attr('disabled', 'true');
     } else {
-      $('#reservation-start-time').removeAttr('disabled');
+      $('#start-time').removeAttr('disabled');
     }
   });
 
   // Default the duration of the appointment to that of the service's
-  $('#reservation-service-id').change(() => {
-    let serviceId = $('#reservation-service-id').val();
+  $('#service-id').change(() => {
+    let serviceId = $('#service-id').val();
     if (serviceId !== '') {
-      let option = $(`#reservation-service-id > option[value="${serviceId}"]`);
+      let option = $(`#service-id > option[value="${serviceId}"]`);
       let duration = option.data('duration');
       let hours = Math.floor(duration / 60);
       let minutes = duration % 60;
-      $('#reservation-duration-hours').val(hours);
-      $('#reservation-duration-minutes').val(minutes);
+      $('#duration-hours').val(hours);
+      $('#duration-minutes').val(minutes);
       $('#service-details').show();
     } else {
       $('#service-details').hide();

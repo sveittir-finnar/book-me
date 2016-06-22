@@ -1,0 +1,25 @@
+<!--
+     This uploader component uploads an image to the server and
+     gets back a path for the image in the uploads folder. This
+     path is made available to external components through the
+     data-url attribute on the form.
+ -->
+<div class="image-uploader">
+  <img src="<%= @source %>"/>
+</div>
+<form id="image-upload-form" action="<%= upload_path(@conn, :create) %>"
+      method="post">
+  <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+  <input type="file" name="image" class="hidden" id="image-upload-input"/>
+</form>
+
+<style>
+.image-uploader img {
+    width: 80%;
+    max-height: 250px;
+    max-width: 250px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+</style>

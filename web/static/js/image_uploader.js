@@ -17,7 +17,7 @@ form.submit(function (evt) {
   })
   .done((res) => {
     console.log(res);
-    form.attr('data-url', res.path);
+    form.attr('data-url', `/${res.path}`);
   })
   .fail(console.error);
 

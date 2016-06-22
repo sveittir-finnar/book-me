@@ -6,7 +6,7 @@
  -->
 <div class="image-uploader">
   <!-- TODO(kthelgason): Add placeholder image when source is empty -->
-  <img src="/<%= @source %>"/>
+  <img src="<%= @source %>"/>
 </div>
 <form id="image-upload-form" action="<%= upload_path(@conn, :create) %>"
       method="post">

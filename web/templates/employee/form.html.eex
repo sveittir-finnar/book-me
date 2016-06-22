@@ -2,7 +2,7 @@
     <div class="col-md-4">
         <%= render Appointments.Shared, "image_uploader.html",
                    conn: @conn,
-                   source: @employee.avatar_url %>
+                   source: if is_nil(@employee), do: Appointments.Avatar.default_url(:file), else: @employee.avatar_url %>
     </div>
     <div class="col-md-8">
       <%= form_for @changeset, @action, [id: "employee-form"], fn f -> %>

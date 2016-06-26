@@ -21,6 +21,8 @@
         <h4 class="modal-title" id="myModalLabel">Add an appointment</h4>
       </div>
       <div class="modal-body">
+        <div id="errors" class="alert alert-danger" style="display: none;"></div>
+
         <button id="client-btn">Appointment</button>
         <button id="personal-btn">Personal</button>
 

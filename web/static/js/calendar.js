@@ -55,6 +55,7 @@ function isTime(value) {
 
 function clearErrors() {
   $('.errors').hide();
+  $('#errors').hide();
 }
 
 function showError(elem, message) {
@@ -188,12 +189,14 @@ $(() => {
       }
     })
     .done((data) => {
-      // TODO(krummi): Reload the webpage or something...
+      // TODO(krummi): modal.close() and refresh the calendar.
       alert('created!');
     })
     .fail((err, status) => {
       console.log(err);
       console.log(status);
+      $('#errors').html(`<p>Unable to save your appointment, please contact support if problem persists (err: ${err.status} ${err.statusText}).</p>`);
+      $('#errors').show();
     });
 
     // TODO(krummi): Remove!

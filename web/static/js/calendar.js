@@ -4,7 +4,7 @@ import $ from 'jquery'
 function toFullCalendarEvent (reservation) {
   let title = reservation.title;
   let start = reservation.start_time;
-  let end   = reservation.computed.end_time;
+  let end = reservation.computed.end_time;
 
   // Special handling for all_day == true
   if (reservation.all_day) {
@@ -67,16 +67,17 @@ function showError(elem, message) {
 function validate(form) {
   let errors = 0;
 
-  // Date & time
+  // Start date & time
   let startDate = $('#start-date');
   if (!isDate(startDate.val())) {
-    errors += showError($('#start-date-err'), 'You must pick a date!');
+    errors += showError($('#start-date-err'), 'You must pick a start date.');
   }
   let allDay = $('#all-day');
+  let allDayIsChecked = allDay.is(':checked');
   let startTime = $('#start-time');
-  if (!allDay.is(':checked') && !isTime(startTime.val())) {
+  if (!allDayIsChecked && !isTime(startTime.val())) {
     errors += showError($('#start-time-err'),
-      'You must either pick a time OR an all day event!');
+      'You must either pick a start time OR an all day event.');
   }
 
   let type = $('#type').val();
@@ -85,7 +86,7 @@ function validate(form) {
     // Client ID
     let clientId = $('#client-id');
     if (!isUuid(clientId.val())) {
-      errors += showError($('#client-id-err'), 'You must choose a client!');
+      errors += showError($('#client-id-err'), 'You must choose a client.');
     }
 
     // Service ID
@@ -101,11 +102,15 @@ function validate(form) {
       errors += showError($('#employee-id-err'), 'You must select the employee.');
     }
 
-    // End time
+    // End date & time
+    let endDate = $('#end-date');
     let endTime = $('#end-time');
-    if (!allDay.is(':checked') && !isTime(endTime.val())) {
+    if (!isDate(endDate.val())) {
+      errors += showError($('#end-date-err'), 'You must pick an end date.');
+    }
+    if (!allDayIsChecked && !isTime(endTime.val())) {
       errors += showError($('#end-time-err'),
-        'You must either omit the end date, pick a time OR an all day event!');
+        'You must pick an end time OR an all day event.');
     }
   }
   console.log('errors:', errors);

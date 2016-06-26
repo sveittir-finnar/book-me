@@ -64,7 +64,7 @@
             <h4>Date &amp; Time</h4>
             <fieldset>
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <label>All day?</label>
                 </div>
                 <div class="col-md-9">
@@ -72,10 +72,10 @@
                 </div>
               </div>
               <div class="row" style="margin-top: 5px;">
-                <div class="col-md-3" style="padding-top: 4px;">
+                <div class="col-md-2" style="padding-top: 4px;">
                   <label>Start time</label>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-6">
                   <input type="date" class="form-control" id="start-date" name="start_date" placeholder="Start date" />
                   <div class="errors" id="start-date-err"></div>
                 </div>
@@ -85,10 +85,10 @@
                 </div>
               </div>
               <div id="end-time-container" class="row" style="display: none; margin-top: 10px;">
-                <div class="col-md-3">
-                  <label>End time</label> <small>(optional)</small>
+                <div class="col-md-2" style="padding-top: 4px;">
+                  <label>End time</label>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-6">
                   <input type="date" class="form-control" id="end-date" name="end_date" placeholder="End date" />
                   <div class="errors" id="end-date-err"></div>
                 </div>

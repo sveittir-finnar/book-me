@@ -100,38 +100,73 @@ function validate(form) {
     if (!isUuid(employeeId)) {
       errors += showError($('#employee-id-err'), 'You must select the employee.');
     }
+
+    // End time
+    let endTime = $('#end-time');
+    if (!allDay.is(':checked') && !isTime(endTime.val())) {
+      errors += showError($('#end-time-err'),
+        'You must either omit the end date, pick a time OR an all day event!');
+    }
   }
   console.log('errors:', errors);
   return errors === 0;
 }
 
-function formToReservation(form) {
-  let data = (
-    form.type === 'personal' ? handlePersonal(form) : handleClient(form));
-
-  // {start_date, start_time} -> start_time
-  if (data.all_day === 'on') {
-    data.all_day = true;
-    data.start_time = `${data.start_date} 00:00:00`;
-  } else {
-    data.all_day = false;
-    data.start_time = `${data.start_date} ${data.start_time}:00`;
+function parseDateTime(data, dateKey, timeKey) {
+  if (!isDate(data[dateKey])) {
+    return null;
   }
-  delete data.start_date;
 
-  // Update the keys to be on the form "reservation[key]'.
-  _.forEach(data, (value, key) => {
-    data[`reservation[${key}]`] = value;
-    delete data[key];
-  });
-
-  return data;
+  let time;
+  if (data.all_day) {
+    time = `${data[dateKey]} 00:00:00`;
+  } else {
+    if (!isTime(data[timeKey])) {
+      return null;
+    }
+    time = `${data[dateKey]} ${data[timeKey]}:00`;
+  }
+  return time;
 }
 
-function handlePersonal(form) {
+// TODO: Use immutable data structures, this sucks
+function formToReservation(form) {
+  let out;
+  if (form.type === 'personal') {
+    out = parsePersonalForm(form);
+  } else {
+    out = parseClientForm(form);
+  }
+
+  // all_day = 'on' -> all_day = true   <or>   all_day = false
+  out.all_day = (out.all_day === 'on');
+
+  // {start_date, start_time} -> start_time
+  out.start_time = parseDateTime(out, 'start_date', 'start_time');
+  delete out.start_date;
+
+  // {end_date, end_time} -> end_time
+  let endTime = parseDateTime(out, 'end_date', 'end_time');
+  if (endTime) {
+    out.end_time = endTime;
+  } else {
+    delete out.end_time;
+  }
+  delete out.end_date;
+
+  // Update the keys to be on the form 'reservation[key]'.
+  _.forEach(out, (value, key) => {
+    out[`reservation[${key}]`] = value;
+    delete out[key];
+  });
+
+  return out;
+}
+
+function parsePersonalForm(form) {
   return _.pick(form, [
     'type', 'title', 'all_day', 'employee_id', 'notes',
-    'start_date', 'start_time'
+    'start_date', 'start_time', 'end_date', 'end_time'
   ]);;
 }
 
@@ -178,7 +213,6 @@ $(() => {
     // [{ name: 'a', value: 1 }, { name: 'b', value: 3 }] => {a: 1, b: 3}
     let form = _.zipObject(_.map(arr, 'name'), _.map(arr, 'value'));
     let body = formToReservation(form);
-
     $.ajax({
       method: 'POST',
       url: '/reservations',
@@ -188,18 +222,15 @@ $(() => {
         authorization: 'Bearer ' + document.access_token
       }
     })
-    .done((data) => {
+    .done(data => {
       // TODO(krummi): modal.close() and refresh the calendar.
       alert('created!');
     })
     .fail((err, status) => {
-      console.log(err);
-      console.log(status);
       $('#errors').html(`<p>Unable to save your appointment, please contact support if problem persists (err: ${err.status} ${err.statusText}).</p>`);
       $('#errors').show();
     });
 
-    // TODO(krummi): Remove!
     event.preventDefault();
   });
 
@@ -212,6 +243,7 @@ $(() => {
     $('#client').hide();
     $('#service').hide();
     $('#title').show();
+    $('#end-time-container').show();
 
     clearErrors();
 
@@ -224,6 +256,7 @@ $(() => {
     $('#client').show();
     $('#service').show();
     $('#title').hide();
+    $('#end-time-container').hide();
 
     clearErrors();
 
@@ -236,8 +269,11 @@ $(() => {
     if (isChecked) {
       $('#start-time').val('');
       $('#start-time').attr('disabled', 'true');
+      $('#end-time').val('');
+      $('#end-time').attr('disabled', 'true');
     } else {
       $('#start-time').removeAttr('disabled');
+      $('#end-time').removeAttr('disabled');
     }
   });
 
